@@ -23,7 +23,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor // constructor khong tham so
-@SuperBuilder // (@Builder: de tao ra instance ma khong nhat thiet phai dien tat ca tham so, @SuperBuilder: de lop con có the ke thua va truy cap thuoc tinh cua lop cha)
+@SuperBuilder
+// (@Builder: de tao ra instance ma khong nhat thiet phai dien tat ca tham so, @SuperBuilder: de lop con có the ke thua va truy cap thuoc tinh cua lop cha)
 @MappedSuperclass // de ke thua va trien khai thuoc tinh cua lop cha xuong DB
 @EntityListeners(AuditingEntityListener.class) // tu cai dat khi thuoc tinh thay doi (version, ...)
 public class BaseEntity implements Serializable { // inplements de xu li du lieu de dang hon
@@ -56,6 +57,11 @@ public class BaseEntity implements Serializable { // inplements de xu li du lieu
     @LastModifiedDate
     @Column(name = Columns.LAST_MODIFIED_AT)
     private LocalDateTime lastModifiedAt; // thoi gian thay doi cuoi cung?
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.id.equals(BaseEntity.class.cast(obj).id);
+    }
 
     @UtilityClass // lớp chức năng (khong tao instance)
     static class Columns {
