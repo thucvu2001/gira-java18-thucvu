@@ -26,7 +26,8 @@ import java.util.UUID;
 @SuperBuilder
 // (@Builder: de tao ra instance ma khong nhat thiet phai dien tat ca tham so, @SuperBuilder: de lop con có the ke thua va truy cap thuoc tinh cua lop cha)
 @MappedSuperclass // de ke thua va trien khai thuoc tinh cua lop cha xuong DB
-@EntityListeners(AuditingEntityListener.class) // tu cai dat khi thuoc tinh thay doi (version, ...)
+@EntityListeners(AuditingEntityListener.class)
+// tu cai dat khi thuoc tinh thay doi (version, ...), cau hinh trong config/JpaConfiguration
 public class BaseEntity implements Serializable { // inplements de xu li du lieu de dang hon
 
     @Id // danh dau lam khoa chinh

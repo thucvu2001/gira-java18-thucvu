@@ -16,6 +16,8 @@ public interface RoleService extends GenericService<Role, RoleDTO, UUID> {
     Role update(Role role, String code);
 
     void deleteByCode(String code);
+
+    RoleDTO save(RoleDTO dto);
 }
 
 @Service
@@ -41,6 +43,13 @@ class RoleServiceImpl implements RoleService {
     @Override
     public void deleteByCode(String code) {
         repository.deleteByCode(code);
+    }
+
+    @Override
+    public RoleDTO save(RoleDTO dto) {
+        Role model = mapper.map(dto, Role.class); // chuyen DTO thanh entity
+        Role saveModel = repository.save(model); // luu entity vao db
+        return mapper.map(saveModel, RoleDTO.class); // chuyen lai thanh DTO va tra ra
     }
 
     @Override
