@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface GenericService<T extends BaseEntity, D, I> {
+    // T: entity
+    // D: DTO
+    // I: Id (kieu cua khoa chinh)
     JpaRepository<T, I> getRepository(); // Factory Method
 
     ModelMapper getMapper();
@@ -38,12 +41,22 @@ public interface GenericService<T extends BaseEntity, D, I> {
                 .toList();
     }
 
+    default List<T> findByIds(List<I> ids) {
+        return getRepository().findAllById(ids);
+    }
+
     default Optional<T> findById(I id) {
         return getRepository().findById(id);
     }
 
     default T save(T entity) {
         return getRepository().save(entity);
+    }
+
+    default D save(D dto, Class<T> modelClass, Class<D> dtoClass) {
+        T model = getMapper().map(dto, modelClass);
+        T saveModel = getRepository().save(model);
+        return getMapper().map(saveModel, dtoClass);
     }
 
     default void deleteById(I id) {
