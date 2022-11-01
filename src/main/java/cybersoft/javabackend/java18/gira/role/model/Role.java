@@ -47,15 +47,14 @@ public class Role extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = RoleEntity.RoleMappedUserGroup.JOIN_TABLE_USER_GROUP_ID))
     private Set<UserGroup> userGroups = new LinkedHashSet<>();
 
+    public void addOperation(Operation operation) {
+        this.operations.add(operation);
+        operation.getRoles().add(this);
+    }
+
     public void removeOperation(Operation operation) {
         operations.remove(operation);
         operation.getRoles().remove(this);
-    }
-
-    public Role addOperation(Operation operation) {
-        this.operations.add(operation);
-        operation.getRoles().add(this);
-        return this;
     }
 
     @Override

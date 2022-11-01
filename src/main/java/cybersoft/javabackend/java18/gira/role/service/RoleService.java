@@ -1,13 +1,12 @@
 package cybersoft.javabackend.java18.gira.role.service;
 
-import cybersoft.javabackend.java18.gira.common.model.RoleWithOperationsDTO;
 import cybersoft.javabackend.java18.gira.common.service.GenericService;
 import cybersoft.javabackend.java18.gira.common.util.GiraMapper;
 import cybersoft.javabackend.java18.gira.role.dto.RoleDTO;
+import cybersoft.javabackend.java18.gira.role.dto.RoleWithOperationsDTO;
 import cybersoft.javabackend.java18.gira.role.model.Operation;
 import cybersoft.javabackend.java18.gira.role.model.Role;
 import cybersoft.javabackend.java18.gira.role.repository.RoleRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +23,8 @@ public interface RoleService extends GenericService<Role, RoleDTO, UUID> {
     RoleDTO save(RoleDTO dto);
 
     RoleWithOperationsDTO addOperation(UUID roleId, List<UUID> operationIds);
+
+    RoleWithOperationsDTO removeOperation(UUID roleId, List<UUID> operationIds);
 }
 
 @Service
@@ -44,8 +45,7 @@ class RoleServiceImpl implements RoleService {
         Role curRole = repository.findByCode(code);
         curRole.setName(role.getName());
         curRole.setDescription(role.getDescription());
-        // return curRole;
-        return repository.save(curRole);
+        return repository.save(curRole); // return curRole;
     }
 
     @Override
@@ -70,12 +70,20 @@ class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    public RoleWithOperationsDTO removeOperation(UUID roleId, List<UUID> operationIds) {
+        Role curRole = repository.findById(roleId).orElseThrow(() -> new ValidationException("Role is not existed"));
+        List<Operation> operations = operationService.findByIds(operationIds);
+        operations.forEach(curRole::removeOperation);
+        return mapper.map(curRole, RoleWithOperationsDTO.class);
+    }
+
+    @Override
     public JpaRepository<Role, UUID> getRepository() {
         return this.repository;
     }
 
     @Override
-    public ModelMapper getMapper() {
+    public GiraMapper getGiraMapper() {
         return this.mapper;
     }
 }
