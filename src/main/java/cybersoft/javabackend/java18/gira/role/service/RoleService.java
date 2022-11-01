@@ -3,13 +3,16 @@ package cybersoft.javabackend.java18.gira.role.service;
 import cybersoft.javabackend.java18.gira.common.service.GenericService;
 import cybersoft.javabackend.java18.gira.common.util.GiraMapper;
 import cybersoft.javabackend.java18.gira.role.dto.RoleDTO;
+import cybersoft.javabackend.java18.gira.role.dto.RoleWithOperationsDTO;
+import cybersoft.javabackend.java18.gira.role.model.Operation;
 import cybersoft.javabackend.java18.gira.role.model.Role;
 import cybersoft.javabackend.java18.gira.role.repository.RoleRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.ValidationException;
+import java.util.List;
 import java.util.UUID;
 
 public interface RoleService extends GenericService<Role, RoleDTO, UUID> {
@@ -18,6 +21,10 @@ public interface RoleService extends GenericService<Role, RoleDTO, UUID> {
     void deleteByCode(String code);
 
     RoleDTO save(RoleDTO dto);
+
+    RoleWithOperationsDTO addOperation(UUID roleId, List<UUID> operationIds);
+
+    RoleWithOperationsDTO removeOperation(UUID roleId, List<UUID> operationIds);
 }
 
 @Service
@@ -25,10 +32,12 @@ public interface RoleService extends GenericService<Role, RoleDTO, UUID> {
 class RoleServiceImpl implements RoleService {
     private final RoleRepository repository;
     private final GiraMapper mapper;
+    private final OperationService operationService; // phai goi service thay vi repository
 
-    public RoleServiceImpl(RoleRepository repository, GiraMapper mapper) {
+    public RoleServiceImpl(RoleRepository repository, GiraMapper mapper, OperationService operationService) {
         this.repository = repository;
         this.mapper = mapper;
+        this.operationService = operationService;
     }
 
     @Override
@@ -36,8 +45,7 @@ class RoleServiceImpl implements RoleService {
         Role curRole = repository.findByCode(code);
         curRole.setName(role.getName());
         curRole.setDescription(role.getDescription());
-        // return curRole;
-        return repository.save(curRole);
+        return repository.save(curRole); // return curRole;
     }
 
     @Override
@@ -53,12 +61,29 @@ class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    public RoleWithOperationsDTO addOperation(UUID roleId, List<UUID> operationIds) {
+        Role curRole = repository.findById(roleId).orElseThrow(() -> new ValidationException("Role is not existed"));
+
+        List<Operation> operations = operationService.findByIds(operationIds);
+        operations.forEach(curRole::addOperation); // duyet list va add tat ca vao Role
+        return mapper.map(curRole, RoleWithOperationsDTO.class);
+    }
+
+    @Override
+    public RoleWithOperationsDTO removeOperation(UUID roleId, List<UUID> operationIds) {
+        Role curRole = repository.findById(roleId).orElseThrow(() -> new ValidationException("Role is not existed"));
+        List<Operation> operations = operationService.findByIds(operationIds);
+        operations.forEach(curRole::removeOperation);
+        return mapper.map(curRole, RoleWithOperationsDTO.class);
+    }
+
+    @Override
     public JpaRepository<Role, UUID> getRepository() {
         return this.repository;
     }
 
     @Override
-    public ModelMapper getMapper() {
+    public GiraMapper getGiraMapper() {
         return this.mapper;
     }
 }

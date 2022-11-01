@@ -1,5 +1,6 @@
 package cybersoft.javabackend.java18.gira.role.dto;
 
+import cybersoft.javabackend.java18.gira.role.model.Operation;
 import cybersoft.javabackend.java18.gira.role.validation.annotation.UniqueRoleCode;
 import cybersoft.javabackend.java18.gira.role.validation.annotation.UniqueRoleName;
 import lombok.*;
@@ -14,20 +15,22 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoleDTO implements Serializable { // DTO: Data Transfer Object
+public class OperationDTO implements Serializable {
 
     private UUID id;
 
     @NotBlank
     @UniqueRoleName
-    @Size(min = 5, max = 100, message = "{role.name.size}")
+    @Size(min = 5, max = 100, message = "{service.name.size}")
     private String name;
 
     @NotBlank
     @UniqueRoleCode
-    @Size(min = 3, max = 10, message = "{role.code.size}")
+    @Size(min = 3, max = 10, message = "{service.code.size}")
     private String code;
 
-    @NotBlank(message = "{role.description.blank}")
+    @NotBlank(message = "{service.description.blank}")
     private String description;
+
+    private Operation.Type type;
 }

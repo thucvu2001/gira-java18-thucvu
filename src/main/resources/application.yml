@@ -18,7 +18,9 @@ spring:
   flyway:
     enabled: false
     driver-class-name: org.postgresql.Driver
-
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
 springdoc:
   swagger-ui:
     path: swagger-ui.html

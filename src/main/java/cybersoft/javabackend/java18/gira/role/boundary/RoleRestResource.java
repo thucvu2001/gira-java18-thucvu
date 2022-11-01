@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.UUID;
 
 @RestController // se tra ve json
 @RequestMapping("/roles")
@@ -34,5 +36,15 @@ public class RoleRestResource {
     @PostMapping
     public Object save(@RequestBody @Valid RoleDTO roleDTO) {
         return ResponseUtils.get(service.save(roleDTO), HttpStatus.CREATED);
+    }
+
+    @PostMapping("{role-id}/add-operations")
+    public Object addOperation(@RequestBody List<UUID> ids, @PathVariable("role-id") UUID roleId) {
+        return ResponseUtils.get(service.addOperation(roleId, ids), HttpStatus.OK);
+    }
+
+    @PostMapping("{role-id}/remove-operations")
+    public Object removeOperation(@RequestBody List<UUID> ids, @PathVariable("role-id") UUID roleId) {
+        return ResponseUtils.get(service.removeOperation(roleId, ids), HttpStatus.OK);
     }
 }

@@ -14,20 +14,20 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoleDTO implements Serializable { // DTO: Data Transfer Object
+public class UserGroupDTO implements Serializable {
 
     private UUID id;
 
     @NotBlank
     @UniqueRoleName
-    @Size(min = 5, max = 100, message = "{role.name.size}")
+    @Size(min = 5, max = 100, message = "{userGroup.name.size}")
     private String name;
 
     @NotBlank
     @UniqueRoleCode
-    @Size(min = 3, max = 10, message = "{role.code.size}")
+    @Size(min = 3, max = 10, message = "{userGroup.code.size}")
     private String code;
 
-    @NotBlank(message = "{role.description.blank}")
+    @NotBlank(message = "{userGroup.description.blank}")
     private String description;
 }
