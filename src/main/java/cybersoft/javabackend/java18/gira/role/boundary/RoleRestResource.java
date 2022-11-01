@@ -42,4 +42,9 @@ public class RoleRestResource {
     public Object addOperation(@RequestBody List<UUID> ids, @PathVariable("role-id") UUID roleId) {
         return ResponseUtils.get(service.addOperation(roleId, ids), HttpStatus.OK);
     }
+
+    @PostMapping("{role-id}/remove-operations")
+    public Object removeOperation(@RequestBody List<UUID> ids, @PathVariable("role-id") UUID roleId) {
+        return ResponseUtils.get(service.removeOperation(roleId, ids), HttpStatus.OK);
+    }
 }

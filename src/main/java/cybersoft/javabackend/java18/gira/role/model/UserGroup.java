@@ -1,6 +1,8 @@
 package cybersoft.javabackend.java18.gira.role.model;
 
 import cybersoft.javabackend.java18.gira.common.model.BaseEntity;
+import cybersoft.javabackend.java18.gira.user.model.User;
+import cybersoft.javabackend.java18.gira.user.model.UserEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,8 +34,19 @@ public class UserGroup extends BaseEntity {
     @NotBlank
     private String description;
 
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = UserEntity.UserMappedUserGroup.JOIN_TABLE,
+            joinColumns = @JoinColumn(name = UserEntity.UserMappedUserGroup.JOIN_TABLE_GROUP_ID),
+            inverseJoinColumns = @JoinColumn(name = UserEntity.UserMappedUserGroup.JOIN_TABLE_USERS_ID))
+    private Set<User> users = new LinkedHashSet<>();
+
     @ManyToMany(mappedBy = RoleEntity.RoleMappedUserGroup.USER_GROUP_MAPPED_ROLE, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Role> roles = new LinkedHashSet<>();
+
+    public void addUser(User user) {
+        this.users.add(user);
+        user.getUserGroups().add(this);
+    }
 
     @Override
     public boolean equals(Object obj) {
