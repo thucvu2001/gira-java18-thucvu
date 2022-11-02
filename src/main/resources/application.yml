@@ -24,4 +24,4 @@ spring:
 springdoc:
   swagger-ui:
     path: swagger-ui.html
-    operationsSorter: method
+    operationsSorter: method q
