@@ -12,7 +12,7 @@ public class UserEntity {
         public static final String PASSWORD = "G_PASSWORD";
         public static final String EMAIL = "G_EMAIL";
         public static final String DISPLAY_NAME = "G_DISPLAY_NAME";
-        public static final String FULLNAME = "G_FULLNAME";
+        public static final String FULL_NAME = "G_FULL_NAME";
         public static final String AVATAR = "G_AVATAR";
         public static final String STATUS = "G_STATUS";
         public static final String FACEBOOK_URL = "G_FACEBOOK_URL";

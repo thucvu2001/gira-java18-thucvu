@@ -44,8 +44,8 @@ public class User extends BaseEntity {
     @Column(name = UserEntity.User.DISPLAY_NAME)
     private String displayName;
 
-    @Column(name = UserEntity.User.FULLNAME)
-    private String fullname;
+    @Column(name = UserEntity.User.FULL_NAME)
+    private String fullName;
 
     @Column(name = UserEntity.User.AVATAR)
     private String avatar;
