@@ -4,23 +4,26 @@ import lombok.experimental.UtilityClass;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
-import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 @UtilityClass
-public class ExceptionUltils {
+public class ExceptionUtils {
     public static final String DEFAULT_UNEXPECTED_MESSAGE = "Ops! Something wrong happens...";
 
-    public List<String> getErrors(ConstraintViolationException exception) {
+    public static List<String> getErrors(Exception exception) {
+        return List.of(DEFAULT_UNEXPECTED_MESSAGE);
+    }
+
+    public static List<String> getErrors(ConstraintViolationException exception) {
         return exception.getConstraintViolations()
                 .stream()
-                .map(ConstraintViolation::getMessage)
+                .map(constraintViolation -> constraintViolation.getMessage())
                 .toList();
     }
 
     public static List<String> getErrors(RuntimeException exception) {
-        return List.of(DEFAULT_UNEXPECTED_MESSAGE);
+        return exception.getMessage().lines().toList();
     }
 
     public static List<String> getErrors(MethodArgumentNotValidException exception) {
@@ -29,4 +32,8 @@ public class ExceptionUltils {
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .toList();
     }
+
+//    public static List<String> getErrors(DisabledException exception) {
+//        return exception.getMessage().lines().toList();
+//    }
 }

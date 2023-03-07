@@ -9,10 +9,10 @@ import java.util.List;
 
 @Getter
 @Builder
-public class ResponseDTO implements Serializable { // chuan dau ra
-    private Object content;
+public class ResponseDTO implements Serializable { // chuan response tra ve
+    private Object content; // co noi dung neu tra ve code 200
     private boolean hasErrors;
-    private List<String> errors;
+    private List<String> errors; // if hasErrors == true, errors not blank
     private String timestamp;
     private int status;
 }

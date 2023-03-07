@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import java.util.LinkedHashSet;
@@ -20,18 +21,20 @@ import java.util.Set;
 @SuperBuilder
 @Table(name = UserEntity.User.TABLE_NAME)
 @NamedQueries({
-        @NamedQuery(name = "User.findByUsernameLikeIgnoreCase", query = "select u from User u where upper(u.username) like upper(:username)")
+        @NamedQuery(name = "User.findByUsernameLikeIgnoreCase", query = "select u from User u where upper(u.username) like upper(:username)"),
+        @NamedQuery(name = "User.findByFullName", query = "select u from User u where lower(u.fullName) like lower(:fullname) ")
 })
 public class User extends BaseEntity {
-
     @Column(name = UserEntity.User.USERNAME,
             unique = true,
             length = 100,
-            updatable = false,
+            updatable = false, // khong duoc sua
             nullable = false)
+    @Length(min = 5, max = 100, message = "{user.username.size}")
     private String username;
 
     @Column(name = UserEntity.User.PASSWORD, nullable = false)
+    @Length(min = 5, max = 100, message = "{user.password.size}")
     private String password;
 
     @Column(name = UserEntity.User.EMAIL,
@@ -39,12 +42,15 @@ public class User extends BaseEntity {
             length = 100,
             nullable = false,
             updatable = false)
+    @Length(min = 5, max = 100, message = "{user.email.size}")
     private String email;
 
     @Column(name = UserEntity.User.DISPLAY_NAME)
+    @Length(min = 5, max = 30, message = "{user.displayName.size}")
     private String displayName;
 
     @Column(name = UserEntity.User.FULL_NAME)
+    @Length(min = 5, max = 100, message = "{user.fullName.size}")
     private String fullName;
 
     @Column(name = UserEntity.User.AVATAR)
@@ -66,7 +72,7 @@ public class User extends BaseEntity {
     @Column(name = UserEntity.User.HOBBIES)
     private String hobbies;
 
-    @ManyToMany(mappedBy = UserEntity.UserMappedUserGroup.USER_GROUP_MAPPED_USER)
+    @ManyToMany(mappedBy = UserEntity.UserMappedUserGroup.USER_GROUP_MAPPED_USER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<UserGroup> userGroups = new LinkedHashSet<>();
 
     public enum Status {

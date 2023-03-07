@@ -5,7 +5,6 @@ import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +21,9 @@ public class OpenApiConfiguration {
                         .title("Jira Application")
                         .description("Operation for Education Purpose")
                         .version("v1.0")
-                        .license(new License().name("NO LICENSE").url("https://www.facebook.com/thucvu01"))
+//                        .license(new License()
+//                                .name("NO LICENSE")
+//                                .url("https://www.facebook.com/thucvu01"))
                         .contact(new Contact()
                                 .email("vuthuc3152001@gmail.com")
                                 .name("Vu Van Thuc")

@@ -13,10 +13,13 @@ class GiraMapperTest {
         UserDTO userDTO = UserDTO.builder()
                 .username("Leontyne")
                 .email("chisum_bretonue@loader.rl")
+                .password("46G")
                 .build();
 
         User user = giraMapper.map(userDTO, User.class);
 
         Assertions.assertEquals(userDTO.getUsername(), user.getUsername());
+        Assertions.assertEquals(userDTO.getEmail(), user.getEmail());
+        Assertions.assertEquals(userDTO.getPassword(), user.getPassword());
     }
 }

@@ -7,6 +7,7 @@ import cybersoft.javabackend.java18.gira.user.model.User;
 import cybersoft.javabackend.java18.gira.user.repository.UserRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -15,6 +16,7 @@ public interface UserService extends GenericService<User, UserDTO, UUID> {
 }
 
 @Service
+@Transactional(readOnly = true)
 class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
@@ -26,7 +28,7 @@ class UserServiceImpl implements UserService {
     }
 
     @Override
-    public JpaRepository<User, UUID> getRepository() {
+    public JpaRepository<User, UUID> getRoleRepository() {
         return this.userRepository;
     }
 

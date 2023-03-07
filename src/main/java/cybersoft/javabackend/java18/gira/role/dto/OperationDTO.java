@@ -7,7 +7,6 @@ import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 import java.util.UUID;
 
 @Getter
@@ -15,21 +14,20 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OperationDTO implements Serializable {
-
+public class OperationDTO {
     private UUID id;
 
     @NotBlank
     @UniqueRoleName
-    @Size(min = 5, max = 100, message = "{service.name.size}")
+    @Size(min = 5, max = 100, message = "service.name.size")
     private String name;
 
     @NotBlank
     @UniqueRoleCode
-    @Size(min = 3, max = 10, message = "{service.code.size}")
+    @Size(min = 3, max = 10, message = "service.code.size")
     private String code;
 
-    @NotBlank(message = "{service.description.blank}")
+    @NotBlank(message = "service.description.blank")
     private String description;
 
     private Operation.Type type;

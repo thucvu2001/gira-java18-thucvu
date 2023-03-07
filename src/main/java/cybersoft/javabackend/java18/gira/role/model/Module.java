@@ -21,15 +21,15 @@ import javax.validation.constraints.NotBlank;
 public class Module extends BaseEntity {
 
     @Column(name = RoleEntity.Module.NAME)
-    @Length(min = 5, max = 100, message = "Module name must have length between {min} and {max}")
+    @Length(min = 5, max = 100, message = "{module.name.size}")
     private String name;
 
     @Column(name = RoleEntity.Module.CODE)
-    @Length(min = 3, max = 10, message = "Module code must have length between {min} and {max}")
+    @Length(min = 3, max = 10, message = "{module.code.size}")
     private String code;
 
     @Column(name = RoleEntity.Module.DESCRIPTION)
-    @NotBlank
+    @NotBlank(message = "{module.description.blank}")
     private String description;
 
     @Override

@@ -14,21 +14,27 @@ import javax.validation.ConstraintViolationException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(ConstraintViolationException.class) // class muon handl
+    @ExceptionHandler(ConstraintViolationException.class) // handle exception
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ResponseDTO> handleConstraintViolationException(ConstraintViolationException exception) {
         return ResponseUtils.error(exception, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class) // class muon handl
+    @ExceptionHandler(MethodArgumentNotValidException.class) // handle exception
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ResponseDTO> handleConstraintViolationException(MethodArgumentNotValidException exception) {
         return ResponseUtils.error(exception, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(RuntimeException.class) // class muon handl
+    @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ResponseDTO> handleConstraintViolationException(RuntimeException exception) {
         return ResponseUtils.error(exception, HttpStatus.BAD_REQUEST);
     }
+
+//    @ExceptionHandler(DisabledException.class)
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    public ResponseEntity<ResponseDTO> handleDisableException(DisabledException exception) {
+//        return ResponseUtils.errors(exception, HttpStatus.BAD_REQUEST);
+//    }
 }

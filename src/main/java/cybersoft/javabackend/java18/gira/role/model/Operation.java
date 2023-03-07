@@ -21,22 +21,22 @@ import java.util.Set;
 public class Operation extends BaseEntity {
 
     @Column(name = RoleEntity.Operation.NAME)
-    @Length(min = 5, max = 100, message = "Operation name must have length between {min} and {max}")
+    @Length(min = 5, max = 100, message = "{operation.name.size}")
     private String name;
 
     @Column(name = RoleEntity.Operation.CODE)
-    @Length(min = 3, max = 10, message = "Operation code must have length between {min} and {max}")
+    @Length(min = 3, max = 10, message = "{operation.code.size}")
     private String code;
 
     @Column(name = RoleEntity.Operation.DESCRIPTION)
-    @NotBlank
+    @NotBlank(message = "{operation.description.blank}")
     private String description;
 
-    @Column(name = RoleEntity.Operation.TYPE, nullable = false)
-    @Enumerated(EnumType.STRING) // quy dinh kieu cua enum la String (mac dinh la so)
+    @Column(name = RoleEntity.Operation.TYPE, nullable = false) // not null
+    @Enumerated(EnumType.STRING) // quy dinh kieu cua enum la String (mac dinh la so) khi luu xuong database
     private Type type;
 
-    @ManyToMany(mappedBy = RoleEntity.RoleMappedOperation.OPERATION_MAPPED_ROLE)
+    @ManyToMany(mappedBy = RoleEntity.RoleMappedOperation.OPERATION_MAPPED_ROLE, cascade = {CascadeType.PERSIST, CascadeType.MERGE}) // mappedBy = operations, cấu hình bên entity yếu
     private Set<Role> roles = new LinkedHashSet<>();
 
     @Override
@@ -44,7 +44,7 @@ public class Operation extends BaseEntity {
         return super.equals(obj);
     }
 
-    public enum Type {
+    public static enum Type {
         SAVE_OR_UPDATE,
         FETCH,
         REMOVE

@@ -6,6 +6,7 @@ import cybersoft.javabackend.java18.gira.role.dto.OperationDTO;
 import cybersoft.javabackend.java18.gira.role.model.Operation;
 import cybersoft.javabackend.java18.gira.role.repository.OperationRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public interface OperationService extends GenericService<Operation, OperationDTO
     List<Operation> findAll(List<UUID> operationIds);
 }
 
-@org.springframework.stereotype.Service
+@Service
 @Transactional
 class OperationServiceImpl implements OperationService {
 
@@ -30,7 +31,7 @@ class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public JpaRepository<Operation, UUID> getRepository() {
+    public JpaRepository<Operation, UUID> getRoleRepository() {
         return this.operationRepository;
     }
 

@@ -22,22 +22,22 @@ import java.util.Set;
 @Table(name = RoleEntity.Role.TABLE_NAME)
 public class Role extends BaseEntity {
     @Column(name = RoleEntity.Role.NAME, unique = true, length = 100)
-    @Length(min = 5, max = 100, message = "Role name must have length between {min} and {max}")
+    @Length(min = 5, max = 100, message = "{role.name.size}")
     private String name;
 
     @Column(name = RoleEntity.Role.CODE, unique = true)
-    @Length(min = 3, max = 10, message = "Role code must have length between {min} and {max}")
+    @Length(min = 3, max = 10, message = "{role.code.size}")
     private String code;
 
     @Column(name = RoleEntity.Role.DESCRIPTION)
-    @NotBlank
-    private String description;
+    @NotBlank(message = "{role.description.blank}")
+    private String description; // mo ta
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}) // neu 1 ben bi xoa thi ben con lai van con
     @JoinTable(
-            name = RoleEntity.RoleMappedOperation.JOIN_TABLE,
-            joinColumns = @JoinColumn(name = RoleEntity.RoleMappedOperation.JOIN_TABLE_ROLE_ID),
-            inverseJoinColumns = @JoinColumn(name = RoleEntity.RoleMappedOperation.JOIN_TABLE_OPERATION_ID))
+            name = RoleEntity.RoleMappedOperation.JOIN_TABLE, // ten bang
+            joinColumns = @JoinColumn(name = RoleEntity.RoleMappedOperation.JOIN_TABLE_ROLE_ID), // cot cua chu quan he
+            inverseJoinColumns = @JoinColumn(name = RoleEntity.RoleMappedOperation.JOIN_TABLE_OPERATION_ID)) // cot cua quan he yeu
     private Set<Operation> operations = new LinkedHashSet<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -53,8 +53,10 @@ public class Role extends BaseEntity {
     }
 
     public void removeOperation(Operation operation) {
+        // khi xoa thi se so sanh operation trong ham va operation trong list operations
+        // va so sanh bang ham equals va hashCode
         operations.remove(operation);
-        operation.getRoles().remove(this);
+        operation.getRoles().remove(this); // this la role hien tai
     }
 
     @Override
@@ -64,15 +66,16 @@ public class Role extends BaseEntity {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
+        if (this == obj) { // bang nhau ve bộ nhớ (2 thang la 1)
             return true;
         }
         if (obj == null || Hibernate.getClass(this) != Hibernate.getClass(obj)) {
+            // bang null hoac la 2 class khac nhau thi return false
             return false;
         }
 
-        Role role = (Role) obj;
-
+        // đến đây thi chắc chắn đã khác null và là cùng 1 class
+        Role role = (Role) obj; // ep kieu
         return this.id != null && Objects.equals(this.id, role.id);
     }
 }

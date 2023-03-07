@@ -29,7 +29,7 @@ public class ResponseUtils {
                 ResponseDTO.builder()
                         .content(null)
                         .hasErrors(true)
-                        .errors(ExceptionUltils.getErrors(exception)) // ExceptionUtils
+                        .errors(ExceptionUtils.getErrors(exception)) // ExceptionUtils
                         .timestamp(DateTimeUtils.now())
                         .status(status.value())
                         .build()
@@ -42,7 +42,7 @@ public class ResponseUtils {
                 ResponseDTO.builder()
                         .content(null)
                         .hasErrors(true)
-                        .errors(ExceptionUltils.getErrors(exception))
+                        .errors(ExceptionUtils.getErrors(exception))
                         .timestamp(DateTimeUtils.now())
                         .status(status.value())
                         .build()
@@ -55,11 +55,24 @@ public class ResponseUtils {
                 ResponseDTO.builder()
                         .content(null)
                         .hasErrors(true)
-                        .errors(ExceptionUltils.getErrors(exception))
+                        .errors(ExceptionUtils.getErrors(exception))
                         .timestamp(DateTimeUtils.now())
                         .status(status.value())
                         .build()
                 , status
         );
     }
+
+//    public static ResponseEntity<ResponseDTO> errors(DisabledException exception, HttpStatus status) {
+//        return new ResponseEntity<>(
+//                ResponseDTO.builder()
+//                        .content(null)
+//                        .hasErrors(true)
+//                        .errors(ExceptionUtils.getErrors(exception))
+//                        .timestamp(DateTimeUtils.now())
+//                        .status(status.value())
+//                        .build()
+//                , status
+//        );
+//    }
 }

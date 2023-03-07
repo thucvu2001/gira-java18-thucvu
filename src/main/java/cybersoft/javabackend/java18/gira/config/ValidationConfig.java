@@ -7,7 +7,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @Configuration
-public class ValidationConfig {
+public class ValidationConfig { // cau hinh cho file ValidationMessages.properties
 
     @Bean
     public MessageSource getMessageSource() {

@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import java.util.Optional;
 
 @Configuration
-@EnableJpaAuditing(auditorAwareRef = "auditorAware") // kich hoat chuc nang Auditing
+@EnableJpaAuditing(auditorAwareRef = "auditorAware") // kich hoat chuc nang Auditing trong BaseEntity
 public class JpaConfiguration {
 
     @Bean
@@ -17,9 +17,20 @@ public class JpaConfiguration {
     }
 
     static class AuditorAwareImpl implements AuditorAware<String> {
+
         @Override
-        public Optional<String> getCurrentAuditor() { // tra ve user dang login
+        public Optional<String> getCurrentAuditor() { // tra ve user dang login, cau hinh lai sau khi co security
             return Optional.of("Anonymous");
         }
+
+//        @Override
+//        public Optional<String> getCurrentAuditor() {
+//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//            if (authentication.getName().equals("anonymousUser")) {
+//                return Optional.of("SYSTEM");
+//            } else {
+//                return Optional.of(authentication.getName());
+//            }
+//        }
     }
 }

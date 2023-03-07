@@ -12,12 +12,14 @@ spring:
     password: 1234
   jpa:
     hibernate:
+#      ddl-auto: validate
       ddl-auto: update
     generate-ddl: true
     show-sql: true
   flyway:
     enabled: false
     driver-class-name: org.postgresql.Driver
+    locations: 'classpath:migration/db'
   jackson:
     serialization:
       FAIL_ON_EMPTY_BEANS: false

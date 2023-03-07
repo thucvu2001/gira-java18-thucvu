@@ -20,6 +20,8 @@ public interface UserGroupService extends GenericService<UserGroup, UserGroupDTO
 
     UserGroupWithUsersDTO addUsers(UUID userGroupId, List<UUID> ids);
 
+    UserGroupWithUsersDTO removeUsers(UUID userGroupId, List<UUID> uuids);
+
     List<UserGroupWithUsersDTO> findAllDtoIncludeUsers();
 }
 
@@ -40,7 +42,7 @@ class UserGroupServiceImpl implements UserGroupService {
     }
 
     @Override
-    public JpaRepository<UserGroup, UUID> getRepository() {
+    public JpaRepository<UserGroup, UUID> getRoleRepository() {
         return this.userGroupRepository;
     }
 
@@ -55,6 +57,15 @@ class UserGroupServiceImpl implements UserGroupService {
                 .orElseThrow(() -> new ValidationException("UserGroup is not existed"));
         List<User> users = userService.findByIds(ids);
         users.forEach(userGroup::addUser);
+        return giraMapper.map(userGroup, UserGroupWithUsersDTO.class);
+    }
+
+    @Override
+    public UserGroupWithUsersDTO removeUsers(UUID userGroupId, List<UUID> ids) {
+        UserGroup userGroup = userGroupRepository.findById(userGroupId)
+                .orElseThrow(() -> new ValidationException("UserGroup is not existed"));
+        List<User> users = userService.findByIds(ids);
+        users.forEach(userGroup::removeUser);
         return giraMapper.map(userGroup, UserGroupWithUsersDTO.class);
     }
 

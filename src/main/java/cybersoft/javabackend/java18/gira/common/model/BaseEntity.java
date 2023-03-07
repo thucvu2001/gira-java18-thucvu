@@ -23,15 +23,14 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor // constructor khong tham so
-@SuperBuilder
-// (@Builder: de tao ra instance ma khong nhat thiet phai dien tat ca tham so, @SuperBuilder: de lop con có the ke thua va truy cap thuoc tinh cua lop cha)
+@SuperBuilder // (@Builder: de tao ra instance ma khong nhat thiet phai dien tat ca tham so, @SuperBuilder: de lop con có the ke thua va truy cap thuoc tinh cua lop cha)
 @MappedSuperclass // de ke thua va trien khai thuoc tinh cua lop cha xuong DB
-@EntityListeners(AuditingEntityListener.class)
+@EntityListeners(AuditingEntityListener.class) // kich hoat Jpa Auditor de tu dong điền cac thuoc tinh
 // tu cai dat khi thuoc tinh thay doi (version, ...), cau hinh trong config/JpaConfiguration
-public class BaseEntity implements Serializable { // inplements de xu li du lieu de dang hon
+public class BaseEntity implements Serializable { // implements de xu li du lieu de dang hon
 
     @Id // danh dau lam khoa chinh
-    @Type(type = "uuid-char") // quy chinh kieu cho UUID la uuid-char, mac dinh la bytecode
+    @Type(type = "uuid-char") // quy chinh kieu cho UUID la uuid-char (string), mac dinh la bytecode
     @GeneratedValue // tu dong sinh ra gia tri cho id
     @Column(name = Columns.ID) // dat ten cot trong DB
     protected UUID id; // su dung UUID lam khoa chinh
@@ -54,6 +53,7 @@ public class BaseEntity implements Serializable { // inplements de xu li du lieu
     @Column(name = Columns.LAST_MODIFIED_BY)
     private String lastModifiedBy; // nguoi thay doi du lieu cuoi cung?
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeUtils.DATETIME_FORMAT)
     @DateTimeFormat(pattern = DateTimeUtils.DATETIME_FORMAT)
     @LastModifiedDate
     @Column(name = Columns.LAST_MODIFIED_AT)
@@ -64,7 +64,7 @@ public class BaseEntity implements Serializable { // inplements de xu li du lieu
         return this.id.equals(BaseEntity.class.cast(obj).id);
     }
 
-    @UtilityClass // lớp chức năng (khong tao instance)
+    @UtilityClass // lớp chức năng (khong tao instance) (inner class)
     static class Columns {
         static final String ID = "ID";
         static final String VERSION = "VERSION";

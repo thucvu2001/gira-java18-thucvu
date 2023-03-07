@@ -30,40 +30,39 @@ public interface RoleService extends GenericService<Role, RoleDTO, UUID> {
 @Service
 @Transactional
 class RoleServiceImpl implements RoleService {
-    private final RoleRepository repository;
+    private final RoleRepository roleRepository;
     private final GiraMapper mapper;
     private final OperationService operationService; // phai goi service thay vi repository
 
-    public RoleServiceImpl(RoleRepository repository, GiraMapper mapper, OperationService operationService) {
-        this.repository = repository;
+    public RoleServiceImpl(RoleRepository roleRepository, GiraMapper mapper, OperationService operationService) {
+        this.roleRepository = roleRepository;
         this.mapper = mapper;
         this.operationService = operationService;
     }
 
     @Override
     public Role update(Role role, String code) {
-        Role curRole = repository.findByCode(code);
+        Role curRole = roleRepository.findByCode(code);
         curRole.setName(role.getName());
         curRole.setDescription(role.getDescription());
-        return repository.save(curRole); // return curRole;
+        return roleRepository.save(curRole); // return curRole;
     }
 
     @Override
     public void deleteByCode(String code) {
-        repository.deleteByCode(code);
+        roleRepository.deleteByCode(code);
     }
 
     @Override
     public RoleDTO save(RoleDTO dto) {
         Role model = mapper.map(dto, Role.class); // chuyen DTO thanh entity
-        Role saveModel = repository.save(model); // luu entity vao db
+        Role saveModel = roleRepository.save(model); // luu entity vao db
         return mapper.map(saveModel, RoleDTO.class); // chuyen lai thanh DTO va tra ra
     }
 
     @Override
     public RoleWithOperationsDTO addOperation(UUID roleId, List<UUID> operationIds) {
-        Role curRole = repository.findById(roleId).orElseThrow(() -> new ValidationException("Role is not existed"));
-
+        Role curRole = roleRepository.findById(roleId).orElseThrow(() -> new ValidationException("Role is not existed"));
         List<Operation> operations = operationService.findByIds(operationIds);
         operations.forEach(curRole::addOperation); // duyet list va add tat ca vao Role
         return mapper.map(curRole, RoleWithOperationsDTO.class);
@@ -71,15 +70,15 @@ class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleWithOperationsDTO removeOperation(UUID roleId, List<UUID> operationIds) {
-        Role curRole = repository.findById(roleId).orElseThrow(() -> new ValidationException("Role is not existed"));
+        Role curRole = roleRepository.findById(roleId).orElseThrow(() -> new ValidationException("Role is not existed"));
         List<Operation> operations = operationService.findByIds(operationIds);
         operations.forEach(curRole::removeOperation);
         return mapper.map(curRole, RoleWithOperationsDTO.class);
     }
 
     @Override
-    public JpaRepository<Role, UUID> getRepository() {
-        return this.repository;
+    public JpaRepository<Role, UUID> getRoleRepository() {
+        return this.roleRepository;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package cybersoft.javabackend.java18.gira.user.controller;
 
+import cybersoft.javabackend.java18.gira.common.model.ResponseDTO;
 import cybersoft.javabackend.java18.gira.common.util.ResponseUtils;
 import cybersoft.javabackend.java18.gira.user.dto.UserDTO;
 import cybersoft.javabackend.java18.gira.user.model.User;
@@ -9,9 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.UUID;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/v1/user")
 public class UserRestResource {
     private final UserService userService;
 
@@ -19,19 +21,29 @@ public class UserRestResource {
         this.userService = userService;
     }
 
-    @GetMapping
-    public ResponseEntity<?> findAllUser() {
+    @GetMapping("/find-all-users")
+    public ResponseEntity<ResponseDTO> findAllUser() {
         return ResponseUtils.get(
                 userService.findAllDto(UserDTO.class),
                 HttpStatus.OK
         );
     }
 
-    @PostMapping
-    public ResponseEntity<?> saveUser(@RequestBody @Valid UserDTO userDTO) {
+    @PostMapping("/save-user")
+    public ResponseEntity<ResponseDTO> saveUser(@RequestBody @Valid UserDTO userDTO) {
         return ResponseUtils.get(
                 userService.save(userDTO, User.class, UserDTO.class),
                 HttpStatus.CREATED
         );
+    }
+
+    @PutMapping("/update-user/{user-id}")
+    public ResponseEntity<ResponseDTO> updateUser(@RequestBody @Valid UserDTO user, @PathVariable("user-id") UUID userId) {
+        return ResponseUtils.get(userService.update(user, userId, User.class, UserDTO.class), HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping("/delete-user/{user-id}")
+    public ResponseEntity<ResponseDTO> deleteUser(@PathVariable("user-id") UUID userId) {
+        return ResponseUtils.get(userService.deleteById(userId), HttpStatus.OK);
     }
 }

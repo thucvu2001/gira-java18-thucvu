@@ -8,9 +8,9 @@ public class RoleEntity {
     @UtilityClass
     public static class RoleMappedOperation {
         public static final String OPERATION_MAPPED_ROLE = "operations";
-        public static final String JOIN_TABLE = "G_ROLE_OPERATION";
-        public static final String JOIN_TABLE_ROLE_ID = "G_ROLE_ID";
-        public static final String JOIN_TABLE_OPERATION_ID = "G_OPERATION_ID";
+        public static final String JOIN_TABLE = "G_ROLE_OPERATION"; // chu dung truoc (role)
+        public static final String JOIN_TABLE_ROLE_ID = "G_ROLE_ID"; // id cua role trong bang phu
+        public static final String JOIN_TABLE_OPERATION_ID = "G_OPERATION_ID"; // id cua operation trong bang phu
     }
 
     @UtilityClass

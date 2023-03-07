@@ -10,7 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Constraint(validatedBy = UniqueRoleNameValidator.class) //class xử lí logic của annotation
-@Retention(RetentionPolicy.RUNTIME) // annotation co tac dung tai giai doan nao cua ung dung?
+@Retention(RetentionPolicy.RUNTIME) // annotation co tac dung tai giai doan nao cua ung dung? - Runtime
 @Target(ElementType.FIELD) // danh dau cho thuoc tinh, phuong thuc, class, ...?
 public @interface UniqueRoleName {
     String message() default "{role.name.existed}";

@@ -23,15 +23,15 @@ import java.util.Set;
 public class UserGroup extends BaseEntity {
 
     @Column(name = RoleEntity.UserGroup.NAME, unique = true)
-    @Length(min = 5, max = 100, message = "UserGroup name must have length between {min} and {max}")
+    @Length(min = 5, max = 100, message = "{userGroup.name.size}")
     private String name;
 
     @Column(name = RoleEntity.UserGroup.CODE)
-    @Length(min = 3, max = 10, message = "UserGroup code must have length between {min} and {max}")
+    @Length(min = 3, max = 10, message = "{userGroup.code.size}")
     private String code;
 
     @Column(name = RoleEntity.UserGroup.DESCRIPTION)
-    @NotBlank
+    @NotBlank(message = "{userGroup.description.blank}")
     private String description;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -46,6 +46,11 @@ public class UserGroup extends BaseEntity {
     public void addUser(User user) {
         this.users.add(user);
         user.getUserGroups().add(this);
+    }
+
+    public void removeUser(User user) {
+        this.users.remove(user);
+        user.getUserGroups().remove(this);
     }
 
     @Override
