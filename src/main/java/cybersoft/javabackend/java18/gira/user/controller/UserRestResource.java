@@ -13,7 +13,7 @@ import javax.validation.Valid;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("api/v1/users")
 public class UserRestResource {
     private final UserService userService;
 
@@ -32,7 +32,7 @@ public class UserRestResource {
     @PostMapping("/save-user")
     public ResponseEntity<ResponseDTO> saveUser(@RequestBody @Valid UserDTO userDTO) {
         return ResponseUtils.get(
-                userService.save(userDTO, User.class, UserDTO.class),
+                userService.createUser(userDTO),
                 HttpStatus.CREATED
         );
     }

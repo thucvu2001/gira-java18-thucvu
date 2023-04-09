@@ -7,25 +7,24 @@ public class UserEntity {
 
     @UtilityClass
     public class User {
-        public static final String TABLE_NAME = "G_USER";
-        public static final String USERNAME = "G_USERNAME";
-        public static final String PASSWORD = "G_PASSWORD";
-        public static final String EMAIL = "G_EMAIL";
-        public static final String DISPLAY_NAME = "G_DISPLAY_NAME";
-        public static final String FULL_NAME = "G_FULL_NAME";
-        public static final String AVATAR = "G_AVATAR";
-        public static final String STATUS = "G_STATUS";
-        public static final String FACEBOOK_URL = "G_FACEBOOK_URL";
-        public static final String MAJORITY = "G_MAJORITY";
-        public static final String DEPARTMENT = "G_DEPARTMENT";
-        public static final String HOBBIES = "G_HOBBIES";
+        public static final String TABLE_NAME = "users";
+        public static final String USERNAME = "username";
+        public static final String PASSWORD = "password";
+        public static final String EMAIL = "email";
+        public static final String DISPLAY_NAME = "display_name";
+        public static final String FULL_NAME = "full_name";
+        public static final String AVATAR = "avatar";
+        public static final String STATUS = "status";
+        public static final String FACEBOOK_URL = "facebook_url";
+        public static final String MAJORITY = "majority";
+        public static final String DEPARTMENT = "department";
+        public static final String HOBBIES = "hobbies";
     }
 
     @UtilityClass
     public class UserMappedUserGroup {
-        public static final String USER_GROUP_MAPPED_USER = "users";
-        public static final String JOIN_TABLE = "G_GROUP_USERS";
-        public static final String JOIN_TABLE_GROUP_ID = "G_GROUP_ID";
-        public static final String JOIN_TABLE_USERS_ID = "G_USERS_ID";
+        public static final String JOIN_TABLE = "usergroups_users";
+        public static final String JOIN_TABLE_GROUP_ID = "usergroup_id";
+        public static final String JOIN_TABLE_USERS_ID = "user_id";
     }
 }

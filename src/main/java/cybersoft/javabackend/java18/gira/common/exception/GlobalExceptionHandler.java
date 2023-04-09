@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -22,13 +23,19 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class) // handle exception
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ResponseDTO> handleConstraintViolationException(MethodArgumentNotValidException exception) {
+    public ResponseEntity<ResponseDTO> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
         return ResponseUtils.error(exception, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ResponseDTO> handleConstraintViolationException(RuntimeException exception) {
+    public ResponseEntity<ResponseDTO> handleRuntimeException(RuntimeException exception) {
+        return ResponseUtils.error(exception, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ResponseDTO> handleValidationException(ValidationException exception) {
         return ResponseUtils.error(exception, HttpStatus.BAD_REQUEST);
     }
 

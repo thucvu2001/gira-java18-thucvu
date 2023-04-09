@@ -1,6 +1,7 @@
 package cybersoft.javabackend.java18.gira.user.model;
 
 import cybersoft.javabackend.java18.gira.common.model.BaseEntity;
+import cybersoft.javabackend.java18.gira.role.model.Role;
 import cybersoft.javabackend.java18.gira.role.model.UserGroup;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,10 +9,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -24,7 +27,7 @@ import java.util.Set;
         @NamedQuery(name = "User.findByUsernameLikeIgnoreCase", query = "select u from User u where upper(u.username) like upper(:username)"),
         @NamedQuery(name = "User.findByFullName", query = "select u from User u where lower(u.fullName) like lower(:fullname) ")
 })
-public class User extends BaseEntity {
+public class User extends BaseEntity implements UserDetails {
     @Column(name = UserEntity.User.USERNAME,
             unique = true,
             length = 100,
@@ -72,8 +75,43 @@ public class User extends BaseEntity {
     @Column(name = UserEntity.User.HOBBIES)
     private String hobbies;
 
-    @ManyToMany(mappedBy = UserEntity.UserMappedUserGroup.USER_GROUP_MAPPED_USER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(mappedBy = "users")
     private Set<UserGroup> userGroups = new LinkedHashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "users_id"),
+            inverseJoinColumns = @JoinColumn(name = "roles_id")
+    )
+    private Set<Role> roles = new LinkedHashSet<>();
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        roles.forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())));
+        return List.of(new SimpleGrantedAuthority(authorities.toString()));
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 
     public enum Status {
         ACTIVE,

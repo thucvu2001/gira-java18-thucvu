@@ -1,6 +1,7 @@
 package cybersoft.javabackend.java18.gira.role.model;
 
 import cybersoft.javabackend.java18.gira.common.model.BaseEntity;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,6 +17,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @SuperBuilder
 @Table(name = RoleEntity.Module.TABLE_NAME)
 public class Module extends BaseEntity {

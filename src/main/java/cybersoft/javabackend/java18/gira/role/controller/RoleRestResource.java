@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController // se tra ve json
-@RequestMapping("/api/v1/roles")
+@RequestMapping("api/v1/roles")
 public class RoleRestResource {
     private final RoleService roleService;
 

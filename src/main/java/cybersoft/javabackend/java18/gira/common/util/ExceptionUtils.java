@@ -5,6 +5,7 @@ import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
 import java.util.List;
 
 @UtilityClass
@@ -31,6 +32,10 @@ public class ExceptionUtils {
                 .stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .toList();
+    }
+
+    public static List<String> getErrors(ValidationException exception){
+        return exception.getMessage().lines().toList();
     }
 
 //    public static List<String> getErrors(DisabledException exception) {
