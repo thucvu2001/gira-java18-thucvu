@@ -3,6 +3,7 @@ package cybersoft.javabackend.java18.gira.role.model;
 import cybersoft.javabackend.java18.gira.common.model.BaseEntity;
 import cybersoft.javabackend.java18.gira.user.model.User;
 import cybersoft.javabackend.java18.gira.user.model.UserEntity;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,6 +19,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @SuperBuilder
 @Table(name = RoleEntity.UserGroup.TABLE_NAME)
 public class UserGroup extends BaseEntity {
@@ -40,7 +42,7 @@ public class UserGroup extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = UserEntity.UserMappedUserGroup.JOIN_TABLE_USERS_ID))
     private Set<User> users = new LinkedHashSet<>();
 
-    @ManyToMany(mappedBy = RoleEntity.RoleMappedUserGroup.USER_GROUP_MAPPED_ROLE, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(mappedBy = "userGroups", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Role> roles = new LinkedHashSet<>();
 
     public void addUser(User user) {

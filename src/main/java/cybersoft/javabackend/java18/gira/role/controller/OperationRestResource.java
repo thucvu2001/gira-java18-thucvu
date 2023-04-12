@@ -13,7 +13,7 @@ import javax.validation.Valid;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/operations")
+@RequestMapping("api/v1/operations")
 public class OperationRestResource {
     private final OperationService operationService;
 
@@ -22,6 +22,7 @@ public class OperationRestResource {
     }
 
     @GetMapping("/find-all")
+    // @GiraOperation(name = "findAllOperation", type = Operation.Type.FETCH)
     public ResponseEntity<ResponseDTO> findAll() {
         return ResponseUtils.get(operationService.findAllDto(OperationDTO.class), HttpStatus.OK);
     }

@@ -7,50 +7,48 @@ public class RoleEntity {
 
     @UtilityClass
     public static class RoleMappedOperation {
-        public static final String OPERATION_MAPPED_ROLE = "operations";
-        public static final String JOIN_TABLE = "G_ROLE_OPERATION"; // chu dung truoc (role)
-        public static final String JOIN_TABLE_ROLE_ID = "G_ROLE_ID"; // id cua role trong bang phu
-        public static final String JOIN_TABLE_OPERATION_ID = "G_OPERATION_ID"; // id cua operation trong bang phu
+        public static final String JOIN_TABLE = "roles_operations"; // chu dung truoc (role)
+        public static final String JOIN_TABLE_ROLE_ID = "role_id"; // id cua role trong bang phu
+        public static final String JOIN_TABLE_OPERATION_ID = "operation_id"; // id cua operation trong bang phu
     }
 
     @UtilityClass
     public static class RoleMappedUserGroup {
-        public static final String USER_GROUP_MAPPED_ROLE = "userGroups";
-        public static final String JOIN_TABLE = "G_ROLE_USER_GROUP";
-        public static final String JOIN_TABLE_ROLE_ID = "G_ROLE_ID";
-        public static final String JOIN_TABLE_USER_GROUP_ID = "G_USER_GROUP_ID";
+        public static final String JOIN_TABLE = "roles_usergroups";
+        public static final String JOIN_TABLE_ROLE_ID = "role_id";
+        public static final String JOIN_TABLE_USER_GROUP_ID = "usergroup_id";
     }
 
     @UtilityClass
     public static class Role {
-        public static final String TABLE_NAME = "G_ROLE";
-        public static final String NAME = "G_NAME";
-        public static final String DESCRIPTION = "G_DESCRIPTION";
-        public static final String CODE = "G_CODE";
+        public static final String TABLE_NAME = "Roles";
+        public static final String NAME = "name";
+        public static final String DESCRIPTION = "description";
+        public static final String CODE = "code";
     }
 
     @UtilityClass
     public static class UserGroup {
-        public static final String TABLE_NAME = "G_GROUP";
-        public static final String NAME = "G_NAME";
-        public static final String DESCRIPTION = "G_DESCRIPTION";
-        public static final String CODE = "G_CODE";
+        public static final String TABLE_NAME = "Usergroups";
+        public static final String NAME = "name";
+        public static final String DESCRIPTION = "description";
+        public static final String CODE = "code";
     }
 
     @UtilityClass
     public static class Operation {
-        public static final String TABLE_NAME = "G_OPERATION";
-        public static final String NAME = "G_NAME";
-        public static final String DESCRIPTION = "G_DESCRIPTION";
-        public static final String CODE = "G_CODE";
-        public static final String TYPE = "G_TYPE";
+        public static final String TABLE_NAME = "Operations";
+        public static final String NAME = "name";
+        public static final String DESCRIPTION = "description";
+        public static final String CODE = "code";
+        public static final String TYPE = "type";
     }
 
     @UtilityClass
     public static class Module {
-        public static final String TABLE_NAME = "G_MODULE";
-        public static final String NAME = "G_NAME";
-        public static final String DESCRIPTION = "G_DESCRIPTION";
-        public static final String CODE = "G_CODE";
+        public static final String TABLE_NAME = "Modules";
+        public static final String NAME = "name";
+        public static final String DESCRIPTION = "description";
+        public static final String CODE = "code";
     }
 }

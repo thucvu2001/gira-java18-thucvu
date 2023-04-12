@@ -1,6 +1,7 @@
 package cybersoft.javabackend.java18.gira.role.model;
 
 import cybersoft.javabackend.java18.gira.common.model.BaseEntity;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,6 +17,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @SuperBuilder
 @Table(name = RoleEntity.Operation.TABLE_NAME)
 public class Operation extends BaseEntity {
@@ -36,7 +38,7 @@ public class Operation extends BaseEntity {
     @Enumerated(EnumType.STRING) // quy dinh kieu cua enum la String (mac dinh la so) khi luu xuong database
     private Type type;
 
-    @ManyToMany(mappedBy = RoleEntity.RoleMappedOperation.OPERATION_MAPPED_ROLE, cascade = {CascadeType.PERSIST, CascadeType.MERGE}) // mappedBy = operations, cấu hình bên entity yếu
+    @ManyToMany(mappedBy = "operations", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Role> roles = new LinkedHashSet<>();
 
     @Override

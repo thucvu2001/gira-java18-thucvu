@@ -1,11 +1,16 @@
 package cybersoft.javabackend.java18.gira.role.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import cybersoft.javabackend.java18.gira.common.model.BaseEntity;
+import cybersoft.javabackend.java18.gira.user.model.User;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -18,6 +23,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @SuperBuilder
 @Table(name = RoleEntity.Role.TABLE_NAME)
 public class Role extends BaseEntity {
@@ -33,11 +39,16 @@ public class Role extends BaseEntity {
     @NotBlank(message = "{role.description.blank}")
     private String description; // mo ta
 
+    @ManyToMany(mappedBy = "roles", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @Fetch(value = FetchMode.SELECT)
+    @JsonIgnore
+    private Set<User> users = new LinkedHashSet<>();
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}) // neu 1 ben bi xoa thi ben con lai van con
     @JoinTable(
             name = RoleEntity.RoleMappedOperation.JOIN_TABLE, // ten bang
             joinColumns = @JoinColumn(name = RoleEntity.RoleMappedOperation.JOIN_TABLE_ROLE_ID), // cot cua chu quan he
-            inverseJoinColumns = @JoinColumn(name = RoleEntity.RoleMappedOperation.JOIN_TABLE_OPERATION_ID)) // cot cua quan he yeu
+            inverseJoinColumns = @JoinColumn(name = RoleEntity.RoleMappedOperation.JOIN_TABLE_OPERATION_ID))
+    // cot cua quan he yeu
     private Set<Operation> operations = new LinkedHashSet<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})

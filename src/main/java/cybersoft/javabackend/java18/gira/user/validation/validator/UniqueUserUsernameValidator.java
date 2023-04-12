@@ -6,7 +6,6 @@ import cybersoft.javabackend.java18.gira.user.validation.annotation.UniqueUserUs
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.Optional;
 
 public class UniqueUserUsernameValidator implements ConstraintValidator<UniqueUserUsername, String> {
 
@@ -25,9 +24,9 @@ public class UniqueUserUsernameValidator implements ConstraintValidator<UniqueUs
 
     @Override
     public boolean isValid(String username, ConstraintValidatorContext constraintValidatorContext) {
-        Optional<User> userOptional = Optional.ofNullable(userRepository.findByUsername(username));
+        User userOptional = userRepository.findByUsername(username).orElse(null);
 
-        if (userOptional.isEmpty()) {
+        if (userOptional == null) {
             return true;
         }
 
