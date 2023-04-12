@@ -39,10 +39,12 @@ public class SecurityConfiguration {
 //                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         httpSecurity.authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .antMatchers("/gira/swagger-ui/**").permitAll()
+                // cau hinh swagger
+                .antMatchers("/v3/api-docs/**").permitAll()
+                .antMatchers("/swagger-ui/**").permitAll()
+
                 .antMatchers("/api/v1/auth/login").permitAll()
                 .antMatchers("/demo/test").hasAuthority("DEV")
-
                 .antMatchers("/api/v1/users").permitAll()
                 .antMatchers("/api/v1/roles").permitAll()
 
