@@ -8,6 +8,7 @@ import cybersoft.javabackend.java18.gira.role.service.RoleService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.config.web.servlet.oauth2.client.OAuth2ClientSecurityMarker;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -54,5 +55,15 @@ public class RoleRestResource {
     @DeleteMapping("/remove-operations/{role-id}")
     public ResponseEntity<ResponseDTO> removeOperation(@RequestBody List<UUID> ids, @PathVariable("role-id") UUID roleId) {
         return ResponseUtils.get(roleService.removeOperation(roleId, ids), HttpStatus.OK);
+    }
+
+    @PostMapping("/add-users/{role-id}")
+    public ResponseEntity<ResponseDTO> addUsers(@RequestBody List<UUID> userIds, @PathVariable("role-id") UUID roleId) {
+        return ResponseUtils.get(roleService.addUser(roleId, userIds), HttpStatus.OK);
+    }
+
+    @PostMapping("/remove-users/{role-id}")
+    public ResponseEntity<ResponseDTO> removeUsers(@RequestBody List<UUID> userIds, @PathVariable("role-id") UUID roleId) {
+        return ResponseUtils.get(roleService.removeUser(roleId, userIds), HttpStatus.OK);
     }
 }

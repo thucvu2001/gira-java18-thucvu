@@ -70,6 +70,16 @@ public class Role extends BaseEntity {
         operation.getRoles().remove(this); // this la role hien tai
     }
 
+    public void addUser(User user) {
+        this.users.add(user);
+        user.getRoles().add(this);
+    }
+
+    public void removeUser(User user) {
+        this.users.remove(user);
+        user.getRoles().remove(this);
+    }
+
     @Override
     public int hashCode() {
         return getClass().hashCode();
@@ -77,7 +87,7 @@ public class Role extends BaseEntity {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) { // bang nhau ve bộ nhớ (2 thang la 1)
+        if (this == obj) { // bang nhau ve bộ nhớ (2 object la 1)
             return true;
         }
         if (obj == null || Hibernate.getClass(this) != Hibernate.getClass(obj)) {

@@ -4,9 +4,12 @@ import cybersoft.javabackend.java18.gira.common.service.GenericService;
 import cybersoft.javabackend.java18.gira.common.util.GiraMapper;
 import cybersoft.javabackend.java18.gira.role.dto.RoleDTO;
 import cybersoft.javabackend.java18.gira.role.dto.RoleWithOperationsDTO;
+import cybersoft.javabackend.java18.gira.role.dto.RoleWithUserDTO;
 import cybersoft.javabackend.java18.gira.role.model.Operation;
 import cybersoft.javabackend.java18.gira.role.model.Role;
 import cybersoft.javabackend.java18.gira.role.repository.RoleRepository;
+import cybersoft.javabackend.java18.gira.user.model.User;
+import cybersoft.javabackend.java18.gira.user.service.UserService;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +28,8 @@ public interface RoleService extends GenericService<Role, RoleDTO, UUID> {
     RoleWithOperationsDTO addOperation(UUID roleId, List<UUID> operationIds);
 
     RoleWithOperationsDTO removeOperation(UUID roleId, List<UUID> operationIds);
+    RoleWithUserDTO addUser(UUID roleId, List<UUID> userIds);
+    RoleWithUserDTO removeUser(UUID roleId, List<UUID> userIds);
 }
 
 @Service
@@ -33,11 +38,13 @@ class RoleServiceImpl implements RoleService {
     private final RoleRepository roleRepository;
     private final GiraMapper mapper;
     private final OperationService operationService; // phai goi service thay vi repository
+    private final UserService userService;
 
-    public RoleServiceImpl(RoleRepository roleRepository, GiraMapper mapper, OperationService operationService) {
+    public RoleServiceImpl(RoleRepository roleRepository, GiraMapper mapper, OperationService operationService, UserService userService) {
         this.roleRepository = roleRepository;
         this.mapper = mapper;
         this.operationService = operationService;
+        this.userService = userService;
     }
 
     @Override
@@ -74,6 +81,22 @@ class RoleServiceImpl implements RoleService {
         List<Operation> operations = operationService.findByIds(operationIds);
         operations.forEach(curRole::removeOperation);
         return mapper.map(curRole, RoleWithOperationsDTO.class);
+    }
+
+    @Override
+    public RoleWithUserDTO addUser(UUID roleId, List<UUID> userIds) {
+        Role curRole = roleRepository.findById(roleId).orElseThrow(() -> new ValidationException("Role is not existed"));
+        List<User> users = userService.findByIds(userIds);
+        users.forEach(curRole::addUser);
+        return mapper.map(curRole, RoleWithUserDTO.class);
+    }
+
+    @Override
+    public RoleWithUserDTO removeUser(UUID roleId, List<UUID> userIds) {
+        Role curRole = roleRepository.findById(roleId).orElseThrow(() -> new ValidationException("Role is not existed"));
+        List<User> users = userService.findByIds(userIds);
+        users.forEach(curRole::removeUser);
+        return mapper.map(curRole, RoleWithUserDTO.class);
     }
 
     @Override
