@@ -1,5 +1,6 @@
 package cybersoft.javabackend.java18.gira.role.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import cybersoft.javabackend.java18.gira.common.model.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,10 +9,11 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -34,8 +36,20 @@ public class Module extends BaseEntity {
     @NotBlank(message = "{module.description.blank}")
     private String description;
 
+    @OneToMany(mappedBy = "module", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonIgnore
+    private Set<Operation> operations = new LinkedHashSet<>();
+
     @Override
     public boolean equals(Object obj) {
         return super.equals(obj);
+    }
+
+    public void addOperation (Operation operation) {
+        this.operations.add(operation);
+    }
+
+    public void removeOperation (Operation operation) {
+        this.operations.remove(operation);
     }
 }

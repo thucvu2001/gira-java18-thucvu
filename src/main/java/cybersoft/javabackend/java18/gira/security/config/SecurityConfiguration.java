@@ -44,7 +44,7 @@ public class SecurityConfiguration {
                 .antMatchers("/swagger-ui/**").permitAll()
 
                 .antMatchers("/api/v1/auth/login").permitAll()
-                .antMatchers("/demo/test").hasAuthority("DEVELOPER")
+                .antMatchers("/demo/test").hasAuthority("administrator")
 
                 .antMatchers("/api/v1/users/**").permitAll()
                 .antMatchers("/api/v1/roles/**").permitAll()

@@ -14,5 +14,5 @@ public class ResponseDTO implements Serializable { // chuan response tra ve
     private boolean hasErrors;
     private List<String> errors; // if hasErrors == true, errors not blank
     private String timestamp;
-    private int status;
+    private int status; // 200, 500
 }

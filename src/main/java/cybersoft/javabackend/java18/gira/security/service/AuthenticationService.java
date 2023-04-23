@@ -7,10 +7,12 @@ import cybersoft.javabackend.java18.gira.security.dto.AuthRequestDTO;
 import cybersoft.javabackend.java18.gira.security.dto.AuthResponseDTO;
 import cybersoft.javabackend.java18.gira.user.model.User;
 import cybersoft.javabackend.java18.gira.user.repository.UserRepository;
+import cybersoft.javabackend.java18.gira.user.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final RoleRepository roleRepository;
     private final JwtService jwtService;
+    private final UserDetailsServiceImpl userDetailsService;
 
     public AuthResponseDTO authenticate(AuthRequestDTO authRequestDTO) {
         authenticationManager.authenticate(
@@ -33,13 +36,14 @@ public class AuthenticationService {
                 )
         );
 
-        User user = userRepository.findByUsername(authRequestDTO.getUsername()).orElseThrow();
+        User user = userRepository.findByUsername(authRequestDTO.getUsername()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         Set<Role> roleSet = new HashSet<>();
 
         if (user != null) {
             roleRepository.findAllRolesByUsername(user.getUsername())
                     .forEach(role -> roleSet.add(role));
+
         }
         ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<>();
         roleSet.stream().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())));

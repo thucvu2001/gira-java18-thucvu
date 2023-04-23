@@ -1,11 +1,14 @@
 package cybersoft.javabackend.java18.gira.role.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import cybersoft.javabackend.java18.gira.common.model.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -40,6 +43,12 @@ public class Operation extends BaseEntity {
 
     @ManyToMany(mappedBy = "operations", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Role> roles = new LinkedHashSet<>();
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonIgnore
+    @JoinColumn(name = RoleEntity.ModuleMappedOperation.JOIN_TABLE_MODULE_ID)
+    @Fetch(value = FetchMode.SELECT)
+    private Module module;
 
     @Override
     public boolean equals(Object obj) {

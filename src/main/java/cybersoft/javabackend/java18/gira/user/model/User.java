@@ -1,5 +1,6 @@
 package cybersoft.javabackend.java18.gira.user.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import cybersoft.javabackend.java18.gira.common.model.BaseEntity;
 import cybersoft.javabackend.java18.gira.role.model.Role;
 import cybersoft.javabackend.java18.gira.role.model.UserGroup;
@@ -78,21 +79,14 @@ public class User extends BaseEntity implements UserDetails {
     @ManyToMany(mappedBy = "users")
     private Set<UserGroup> userGroups = new LinkedHashSet<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "users_roles",
-            joinColumns = @JoinColumn(name = "users_id"),
-            inverseJoinColumns = @JoinColumn(name = "roles_id")
-    )
-    private Set<Role> roles = new LinkedHashSet<>();
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        roles.forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())));
+        for(UserGroup userGroup : userGroups) {
+            userGroup.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())));
+        }
         return List.of(new SimpleGrantedAuthority(authorities.toString()));
     }
-
 
     @Override
     public boolean isAccountNonExpired() {

@@ -48,22 +48,22 @@ public class RoleRestResource {
     }
 
     @PostMapping("/add-operations/{role-id}")
-    public ResponseEntity<ResponseDTO> addOperation(@RequestBody List<UUID> ids, @PathVariable("role-id") UUID roleId) {
+    public ResponseEntity<ResponseDTO> addOperations(@RequestBody List<UUID> ids, @PathVariable("role-id") UUID roleId) {
         return ResponseUtils.get(roleService.addOperation(roleId, ids), HttpStatus.OK);
     }
 
     @DeleteMapping("/remove-operations/{role-id}")
-    public ResponseEntity<ResponseDTO> removeOperation(@RequestBody List<UUID> ids, @PathVariable("role-id") UUID roleId) {
+    public ResponseEntity<ResponseDTO> removeOperations(@RequestBody List<UUID> ids, @PathVariable("role-id") UUID roleId) {
         return ResponseUtils.get(roleService.removeOperation(roleId, ids), HttpStatus.OK);
     }
 
-    @PostMapping("/add-users/{role-id}")
-    public ResponseEntity<ResponseDTO> addUsers(@RequestBody List<UUID> userIds, @PathVariable("role-id") UUID roleId) {
-        return ResponseUtils.get(roleService.addUser(roleId, userIds), HttpStatus.OK);
+    @PostMapping("/add-user-groups/{role-id}")
+    public ResponseEntity<ResponseDTO> addUserGroups(@RequestBody List<UUID> ids, @PathVariable("role-id") UUID roleId) {
+        return ResponseUtils.get(roleService.addUserGroup(roleId, ids), HttpStatus.OK);
     }
 
-    @PostMapping("/remove-users/{role-id}")
-    public ResponseEntity<ResponseDTO> removeUsers(@RequestBody List<UUID> userIds, @PathVariable("role-id") UUID roleId) {
-        return ResponseUtils.get(roleService.removeUser(roleId, userIds), HttpStatus.OK);
+    @DeleteMapping("/remove-user-groups/{role-id}")
+    public ResponseEntity<ResponseDTO> removeUserGroups(@RequestBody List<UUID> ids, @PathVariable("role-id") UUID roleId) {
+        return ResponseUtils.get(roleService.removeUserGroup(roleId, ids), HttpStatus.OK);
     }
 }

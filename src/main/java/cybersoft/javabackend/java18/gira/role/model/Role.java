@@ -28,7 +28,7 @@ import java.util.Set;
 @Table(name = RoleEntity.Role.TABLE_NAME)
 public class Role extends BaseEntity {
     @Column(name = RoleEntity.Role.NAME, unique = true, length = 100)
-    @Length(min = 5, max = 100, message = "{role.name.size}")
+    @Length(min = 5, max = 100, message = " {role.name.size}")
     private String name;
 
     @Column(name = RoleEntity.Role.CODE, unique = true)
@@ -39,10 +39,6 @@ public class Role extends BaseEntity {
     @NotBlank(message = "{role.description.blank}")
     private String description; // mo ta
 
-    @ManyToMany(mappedBy = "roles", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @Fetch(value = FetchMode.SELECT)
-    @JsonIgnore
-    private Set<User> users = new LinkedHashSet<>();
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}) // neu 1 ben bi xoa thi ben con lai van con
     @JoinTable(
             name = RoleEntity.RoleMappedOperation.JOIN_TABLE, // ten bang
@@ -70,14 +66,14 @@ public class Role extends BaseEntity {
         operation.getRoles().remove(this); // this la role hien tai
     }
 
-    public void addUser(User user) {
-        this.users.add(user);
-        user.getRoles().add(this);
+    public void addUserGroup (UserGroup userGroup) {
+        this.userGroups.add(userGroup);
+        userGroup.getRoles().add(this);
     }
 
-    public void removeUser(User user) {
-        this.users.remove(user);
-        user.getRoles().remove(this);
+    public void removeUserGroup (UserGroup userGroup) {
+        this.userGroups.remove(userGroup);
+        userGroup.getRoles().remove(this);
     }
 
     @Override

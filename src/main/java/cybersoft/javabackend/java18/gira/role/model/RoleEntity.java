@@ -6,6 +6,11 @@ import lombok.experimental.UtilityClass;
 public class RoleEntity {
 
     @UtilityClass
+    public static class ModuleMappedOperation {
+        public static final String JOIN_TABLE_MODULE_ID = "module_id";
+    }
+
+    @UtilityClass
     public static class RoleMappedOperation {
         public static final String JOIN_TABLE = "roles_operations"; // chu dung truoc (role)
         public static final String JOIN_TABLE_ROLE_ID = "role_id"; // id cua role trong bang phu

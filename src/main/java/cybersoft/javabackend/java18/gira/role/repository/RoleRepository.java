@@ -20,8 +20,10 @@ public interface RoleRepository extends JpaRepository<Role, UUID> {
     @Query(nativeQuery = true, value = """
                 select r.id as id, r.name as name, r.code as code, r.description as description
                 from users u
-                join users_roles ur on u.id = ur.users_id
-                join roles r on r.id = ur.roles_id
+                join usergroups_users uug on u.id = uug.user_id
+                join usergroups ug on uug.usergroup_id = ug.id
+                join roles_usergroups rug on ug.id = rug.usergroup_id
+                join roles r on rug.role_id = r.id
                 where u.username = ?1
             """)
     List<Role> findAllRolesByUsername(String username);

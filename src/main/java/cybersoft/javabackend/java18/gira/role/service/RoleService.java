@@ -4,12 +4,11 @@ import cybersoft.javabackend.java18.gira.common.service.GenericService;
 import cybersoft.javabackend.java18.gira.common.util.GiraMapper;
 import cybersoft.javabackend.java18.gira.role.dto.RoleDTO;
 import cybersoft.javabackend.java18.gira.role.dto.RoleWithOperationsDTO;
-import cybersoft.javabackend.java18.gira.role.dto.RoleWithUserDTO;
+import cybersoft.javabackend.java18.gira.role.dto.RoleWithUserGroupDTO;
 import cybersoft.javabackend.java18.gira.role.model.Operation;
 import cybersoft.javabackend.java18.gira.role.model.Role;
+import cybersoft.javabackend.java18.gira.role.model.UserGroup;
 import cybersoft.javabackend.java18.gira.role.repository.RoleRepository;
-import cybersoft.javabackend.java18.gira.user.model.User;
-import cybersoft.javabackend.java18.gira.user.service.UserService;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,16 +19,12 @@ import java.util.UUID;
 
 public interface RoleService extends GenericService<Role, RoleDTO, UUID> {
     Role update(Role role, String code);
-
     void deleteByCode(String code);
-
     RoleDTO save(RoleDTO dto);
-
     RoleWithOperationsDTO addOperation(UUID roleId, List<UUID> operationIds);
-
     RoleWithOperationsDTO removeOperation(UUID roleId, List<UUID> operationIds);
-    RoleWithUserDTO addUser(UUID roleId, List<UUID> userIds);
-    RoleWithUserDTO removeUser(UUID roleId, List<UUID> userIds);
+    RoleWithUserGroupDTO addUserGroup(UUID roleId, List<UUID> userGroupIds);
+    RoleWithUserGroupDTO removeUserGroup(UUID roleId, List<UUID> userGroupIds);
 }
 
 @Service
@@ -38,13 +33,13 @@ class RoleServiceImpl implements RoleService {
     private final RoleRepository roleRepository;
     private final GiraMapper mapper;
     private final OperationService operationService; // phai goi service thay vi repository
-    private final UserService userService;
+    private final UserGroupService userGroupService;
 
-    public RoleServiceImpl(RoleRepository roleRepository, GiraMapper mapper, OperationService operationService, UserService userService) {
+    public RoleServiceImpl(RoleRepository roleRepository, GiraMapper mapper, OperationService operationService, UserGroupService userGroupService) {
         this.roleRepository = roleRepository;
         this.mapper = mapper;
         this.operationService = operationService;
-        this.userService = userService;
+        this.userGroupService = userGroupService;
     }
 
     @Override
@@ -84,19 +79,19 @@ class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public RoleWithUserDTO addUser(UUID roleId, List<UUID> userIds) {
+    public RoleWithUserGroupDTO addUserGroup(UUID roleId, List<UUID> userGroupIds) {
         Role curRole = roleRepository.findById(roleId).orElseThrow(() -> new ValidationException("Role is not existed"));
-        List<User> users = userService.findByIds(userIds);
-        users.forEach(curRole::addUser);
-        return mapper.map(curRole, RoleWithUserDTO.class);
+        List<UserGroup> userGroups = userGroupService.findByIds(userGroupIds);
+        userGroups.forEach(curRole::addUserGroup);
+        return mapper.map(curRole, RoleWithUserGroupDTO.class);
     }
 
     @Override
-    public RoleWithUserDTO removeUser(UUID roleId, List<UUID> userIds) {
+    public RoleWithUserGroupDTO removeUserGroup(UUID roleId, List<UUID> userGroupIds) {
         Role curRole = roleRepository.findById(roleId).orElseThrow(() -> new ValidationException("Role is not existed"));
-        List<User> users = userService.findByIds(userIds);
-        users.forEach(curRole::removeUser);
-        return mapper.map(curRole, RoleWithUserDTO.class);
+        List<UserGroup> userGroups = userGroupService.findByIds(userGroupIds);
+        userGroups.forEach(curRole::removeUserGroup);
+        return mapper.map(curRole, RoleWithUserGroupDTO.class);
     }
 
     @Override

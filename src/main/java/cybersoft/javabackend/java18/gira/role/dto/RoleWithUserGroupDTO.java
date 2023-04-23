@@ -1,8 +1,8 @@
 package cybersoft.javabackend.java18.gira.role.dto;
 
+
 import cybersoft.javabackend.java18.gira.role.validation.annotation.UniqueRoleCode;
 import cybersoft.javabackend.java18.gira.role.validation.annotation.UniqueRoleName;
-import cybersoft.javabackend.java18.gira.user.dto.UserDTO;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -15,7 +15,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoleWithUserDTO {
+public class RoleWithUserGroupDTO {
     private UUID id;
 
     @NotBlank
@@ -31,5 +31,5 @@ public class RoleWithUserDTO {
     @NotBlank(message = "{role.description.blank}")
     private String description;
 
-    private Set<UserDTO> users;
+    private Set<UserGroupDTO> userGroups;
 }
