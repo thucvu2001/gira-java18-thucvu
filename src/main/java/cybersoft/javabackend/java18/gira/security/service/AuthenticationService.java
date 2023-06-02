@@ -7,10 +7,10 @@ import cybersoft.javabackend.java18.gira.security.dto.AuthRequestDTO;
 import cybersoft.javabackend.java18.gira.security.dto.AuthResponseDTO;
 import cybersoft.javabackend.java18.gira.user.model.User;
 import cybersoft.javabackend.java18.gira.user.repository.UserRepository;
-import cybersoft.javabackend.java18.gira.user.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -24,9 +24,7 @@ import java.util.Set;
 public class AuthenticationService {
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
-    private final RoleRepository roleRepository;
     private final JwtService jwtService;
-    private final UserDetailsServiceImpl userDetailsService;
 
     public AuthResponseDTO authenticate(AuthRequestDTO authRequestDTO) {
         authenticationManager.authenticate(
@@ -40,13 +38,18 @@ public class AuthenticationService {
 
         Set<Role> roleSet = new HashSet<>();
 
-        if (user != null) {
-            roleRepository.findAllRolesByUsername(user.getUsername())
-                    .forEach(role -> roleSet.add(role));
+//        if (user != null) {
+//            roleRepository.findAllRolesByUsername(user.getUsername())
+//                    .forEach(role -> roleSet.add(role));
+//
+//        }
 
+        for (GrantedAuthority grantedAuthority : user.getAuthorities()) {
+            roleSet.add((Role) grantedAuthority);
         }
+
         ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        roleSet.stream().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())));
+        roleSet.forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())));
 
         String jwtToken = jwtService.generateToken(user, authorities);
         String jwtRefreshToken = jwtService.generateRefreshToken(user, authorities);
