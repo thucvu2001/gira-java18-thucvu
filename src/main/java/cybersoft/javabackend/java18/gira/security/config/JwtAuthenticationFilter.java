@@ -38,19 +38,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 // lấy ra token từ Header
                 String token = authorizationHeader.substring("Bearer ".length());
 
-                // lấy thông tin người dùng từ token
+                // Verify Token
                 Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY.getBytes());
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = verifier.verify(token);
+
+                // get username, role from token
                 String username = decodedJWT.getSubject();
                 String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
 
-                // tạo đối tượng UsernamePasswordAuthenticationToken từ thông tin người dùng và đưa vào Security Context Holder
+                // tạo Object UsernamePasswordAuthenticationToken từ user và đưa vào Security Context Holder
                 ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<>();
                 Arrays.stream(roles).forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                         username,
-                        null, // không đưa mật khẩu lên Security Context Holder
+                        null,
                         authorities
                 );
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);

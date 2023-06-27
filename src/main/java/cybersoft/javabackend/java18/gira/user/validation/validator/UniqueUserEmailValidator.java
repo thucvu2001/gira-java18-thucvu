@@ -9,6 +9,7 @@ import javax.validation.ConstraintValidatorContext;
 import java.util.Optional;
 
 public class UniqueUserEmailValidator implements ConstraintValidator<UniqueUserEmail, String> {
+    // String is the type of the object to be validated
 
     private String message;
 

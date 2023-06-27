@@ -44,7 +44,6 @@ public class Role extends BaseEntity {
             name = RoleEntity.RoleMappedOperation.JOIN_TABLE, // ten bang
             joinColumns = @JoinColumn(name = RoleEntity.RoleMappedOperation.JOIN_TABLE_ROLE_ID), // cot cua chu quan he
             inverseJoinColumns = @JoinColumn(name = RoleEntity.RoleMappedOperation.JOIN_TABLE_OPERATION_ID))
-    // cot cua quan he yeu
     private Set<Operation> operations = new LinkedHashSet<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})

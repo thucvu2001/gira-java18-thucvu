@@ -9,6 +9,7 @@ import javax.validation.ConstraintValidatorContext;
 import java.util.Optional;
 
 public class UniqueRoleCodeValidator implements ConstraintValidator<UniqueRoleCode, String> {
+    // String is the type of the object to be validated
 
     private final RoleRepository repository;
     private String message;

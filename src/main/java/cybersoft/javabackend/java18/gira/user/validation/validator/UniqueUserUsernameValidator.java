@@ -8,6 +8,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 public class UniqueUserUsernameValidator implements ConstraintValidator<UniqueUserUsername, String> {
+    // String is the type of the object to be validated
 
     private String message;
 

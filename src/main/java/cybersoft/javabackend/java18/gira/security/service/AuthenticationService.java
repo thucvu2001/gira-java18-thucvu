@@ -2,7 +2,6 @@ package cybersoft.javabackend.java18.gira.security.service;
 
 
 import cybersoft.javabackend.java18.gira.role.model.Role;
-import cybersoft.javabackend.java18.gira.role.repository.RoleRepository;
 import cybersoft.javabackend.java18.gira.security.dto.AuthRequestDTO;
 import cybersoft.javabackend.java18.gira.security.dto.AuthResponseDTO;
 import cybersoft.javabackend.java18.gira.user.model.User;
@@ -37,12 +36,6 @@ public class AuthenticationService {
         User user = userRepository.findByUsername(authRequestDTO.getUsername()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         Set<Role> roleSet = new HashSet<>();
-
-//        if (user != null) {
-//            roleRepository.findAllRolesByUsername(user.getUsername())
-//                    .forEach(role -> roleSet.add(role));
-//
-//        }
 
         for (GrantedAuthority grantedAuthority : user.getAuthorities()) {
             roleSet.add((Role) grantedAuthority);
