@@ -1,7 +1,6 @@
 package cybersoft.javabackend.java18.gira.security.service;
 
 
-import cybersoft.javabackend.java18.gira.role.model.Role;
 import cybersoft.javabackend.java18.gira.security.dto.AuthRequestDTO;
 import cybersoft.javabackend.java18.gira.security.dto.AuthResponseDTO;
 import cybersoft.javabackend.java18.gira.user.model.User;
@@ -10,13 +9,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -35,14 +32,7 @@ public class AuthenticationService {
 
         User user = userRepository.findByUsername(authRequestDTO.getUsername()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        Set<Role> roleSet = new HashSet<>();
-
-        for (GrantedAuthority grantedAuthority : user.getAuthorities()) {
-            roleSet.add((Role) grantedAuthority);
-        }
-
-        ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        roleSet.forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())));
+        List<GrantedAuthority> authorities = new ArrayList<>(user.getAuthorities());
 
         String jwtToken = jwtService.generateToken(user, authorities);
         String jwtRefreshToken = jwtService.generateRefreshToken(user, authorities);

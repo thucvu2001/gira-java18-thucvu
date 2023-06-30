@@ -1,20 +1,17 @@
 package cybersoft.javabackend.java18.gira.role.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import cybersoft.javabackend.java18.gira.common.model.BaseEntity;
-import cybersoft.javabackend.java18.gira.user.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.Hibernate;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -26,7 +23,7 @@ import java.util.Set;
 @AllArgsConstructor
 @SuperBuilder
 @Table(name = RoleEntity.Role.TABLE_NAME)
-public class Role extends BaseEntity {
+public class Role extends BaseEntity implements Serializable {
     @Column(name = RoleEntity.Role.NAME, unique = true, length = 100)
     @Length(min = 5, max = 100, message = " {role.name.size}")
     private String name;

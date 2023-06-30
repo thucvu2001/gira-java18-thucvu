@@ -44,13 +44,13 @@ public class SecurityConfiguration {
                 .antMatchers("/swagger-ui/**").permitAll()
 
                 .antMatchers("/api/v1/auth/login").permitAll()
-                .antMatchers("/demo/test").hasAuthority("administrator")
+                .antMatchers("/demo/test").hasAuthority("ROLE_ADMINISTRATOR")
 
                 .antMatchers("/api/v1/users/**").permitAll()
                 .antMatchers("/api/v1/roles/**").permitAll()
                 .antMatchers("/api/v1/operations/**").permitAll()
                 .antMatchers("/api/v1/user-group/**").permitAll()
-                .antMatchers("api/v1/module/**").permitAll()
+                .antMatchers("/api/v1/module/**").permitAll()
 
                 .and()
                 .csrf().disable()

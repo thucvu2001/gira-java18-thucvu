@@ -15,7 +15,6 @@
     <description>jira</description>
     <properties>
         <java.version>17</java.version>
-        <springdoc.api.version>1.6.15</springdoc.api.version>
     </properties>
     <dependencies>
         <dependency>
@@ -70,7 +69,7 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
-            <version>${springdoc.api.version}</version>
+            <version>1.7.0</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
         <dependency>

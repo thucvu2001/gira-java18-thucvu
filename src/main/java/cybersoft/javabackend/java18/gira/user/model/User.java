@@ -1,8 +1,6 @@
 package cybersoft.javabackend.java18.gira.user.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import cybersoft.javabackend.java18.gira.common.model.BaseEntity;
-import cybersoft.javabackend.java18.gira.role.model.Role;
 import cybersoft.javabackend.java18.gira.role.model.UserGroup;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,6 +13,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.*;
 
 @Entity
@@ -28,7 +27,7 @@ import java.util.*;
         @NamedQuery(name = "User.findByUsernameLikeIgnoreCase", query = "select u from User u where upper(u.username) like upper(:username)"),
         @NamedQuery(name = "User.findByFullName", query = "select u from User u where lower(u.fullName) like lower(:fullname) ")
 })
-public class User extends BaseEntity implements UserDetails {
+public class User extends BaseEntity implements UserDetails, Serializable {
     @Column(name = UserEntity.User.USERNAME,
             unique = true,
             length = 100,
@@ -81,11 +80,11 @@ public class User extends BaseEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        for(UserGroup userGroup : userGroups) {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        for (UserGroup userGroup : userGroups) {
             userGroup.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())));
         }
-        return List.of(new SimpleGrantedAuthority(authorities.toString()));
+        return authorities;
     }
 
     @Override
@@ -106,6 +105,21 @@ public class User extends BaseEntity implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
+        User user = (User) o;
+        return Objects.equals(this.username, user.getUsername()) && Objects.equals(this.email, user.getEmail());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.username, this.email);
     }
 
     public enum Status {

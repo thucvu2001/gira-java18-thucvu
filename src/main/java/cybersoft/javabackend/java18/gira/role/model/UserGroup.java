@@ -40,11 +40,9 @@ public class UserGroup extends BaseEntity {
     @JoinTable(name = UserEntity.UserMappedUserGroup.JOIN_TABLE,
             joinColumns = @JoinColumn(name = UserEntity.UserMappedUserGroup.JOIN_TABLE_GROUP_ID),
             inverseJoinColumns = @JoinColumn(name = UserEntity.UserMappedUserGroup.JOIN_TABLE_USERS_ID))
-    @JsonIgnore
     private Set<User> users = new LinkedHashSet<>();
 
     @ManyToMany(mappedBy = "userGroups", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonIgnore
     private Set<Role> roles = new LinkedHashSet<>();
 
     public void addUser(User user) {
@@ -60,5 +58,10 @@ public class UserGroup extends BaseEntity {
     @Override
     public boolean equals(Object obj) {
         return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }
