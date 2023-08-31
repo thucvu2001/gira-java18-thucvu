@@ -13,7 +13,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Getter

@@ -8,7 +8,6 @@ import cybersoft.javabackend.java18.gira.role.service.RoleService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.config.web.servlet.oauth2.client.OAuth2ClientSecurityMarker;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

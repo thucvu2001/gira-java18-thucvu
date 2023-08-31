@@ -1,0 +1,20 @@
+version: '3.1'
+
+services:
+  app:
+    container_name: jira-postgres-app
+    image: thucvu2001/jira-app
+    build: ./
+    ports:
+      - "8088:8088"
+    depends_on:
+      - postgresqldb
+
+  postgresqldb:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1234

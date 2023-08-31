@@ -6,7 +6,6 @@ import cybersoft.javabackend.java18.gira.common.util.GiraMapper;
 import cybersoft.javabackend.java18.gira.role.dto.ModuleDTO;
 import cybersoft.javabackend.java18.gira.role.model.Module;
 import cybersoft.javabackend.java18.gira.role.repository.ModuleRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
