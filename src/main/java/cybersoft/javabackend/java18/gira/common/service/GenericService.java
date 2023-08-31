@@ -14,6 +14,7 @@ public interface GenericService<T extends BaseEntity, D, I> {
     // D: DTO
     // I: Id (kieu cua khoa chinh)
     JpaRepository<T, I> getRoleRepository(); // Factory Method
+
     GiraMapper getGiraMapper();
 
     default List<T> findAll() {

@@ -31,12 +31,12 @@ public class ModuleRestResource {
     }
 
     @PutMapping("/update/{module-id}")
-    public ResponseEntity<ResponseDTO> updateModule(@RequestBody @Valid ModuleDTO moduleDTO, @PathVariable("module-id")UUID moduleId) {
+    public ResponseEntity<ResponseDTO> updateModule(@RequestBody @Valid ModuleDTO moduleDTO, @PathVariable("module-id") UUID moduleId) {
         return ResponseUtils.get(moduleService.update(moduleDTO, moduleId, Module.class, ModuleDTO.class), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{module-id}")
-    public ResponseEntity<ResponseDTO> deleteModule (@PathVariable("module-id") UUID moduleId) {
+    public ResponseEntity<ResponseDTO> deleteModule(@PathVariable("module-id") UUID moduleId) {
         return ResponseUtils.get(moduleService.deleteById(moduleId), HttpStatus.OK);
     }
 }

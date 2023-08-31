@@ -62,12 +62,12 @@ public class Role extends BaseEntity implements Serializable {
         operation.getRoles().remove(this); // this la role hien tai
     }
 
-    public void addUserGroup (UserGroup userGroup) {
+    public void addUserGroup(UserGroup userGroup) {
         this.userGroups.add(userGroup);
         userGroup.getRoles().add(this);
     }
 
-    public void removeUserGroup (UserGroup userGroup) {
+    public void removeUserGroup(UserGroup userGroup) {
         this.userGroups.remove(userGroup);
         userGroup.getRoles().remove(this);
     }

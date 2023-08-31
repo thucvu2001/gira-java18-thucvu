@@ -44,11 +44,11 @@ public class Module extends BaseEntity {
         return super.equals(obj);
     }
 
-    public void addOperation (Operation operation) {
+    public void addOperation(Operation operation) {
         this.operations.add(operation);
     }
 
-    public void removeOperation (Operation operation) {
+    public void removeOperation(Operation operation) {
         this.operations.remove(operation);
     }
 }

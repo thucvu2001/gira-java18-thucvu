@@ -19,11 +19,17 @@ import java.util.UUID;
 
 public interface RoleService extends GenericService<Role, RoleDTO, UUID> {
     Role update(Role role, String code);
+
     void deleteByCode(String code);
+
     RoleDTO save(RoleDTO dto);
+
     RoleWithOperationsDTO addOperation(UUID roleId, List<UUID> operationIds);
+
     RoleWithOperationsDTO removeOperation(UUID roleId, List<UUID> operationIds);
+
     RoleWithUserGroupDTO addUserGroup(UUID roleId, List<UUID> userGroupIds);
+
     RoleWithUserGroupDTO removeUserGroup(UUID roleId, List<UUID> userGroupIds);
 }
 

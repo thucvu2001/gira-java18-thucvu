@@ -23,7 +23,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor // constructor khong tham so
-@SuperBuilder // (@Builder: de tao ra instance ma khong nhat thiet phai dien tat ca tham so, @SuperBuilder: de lop con có the ke thua va truy cap thuoc tinh cua lop cha)
+@SuperBuilder
+// (@Builder: de tao ra instance ma khong nhat thiet phai dien tat ca tham so, @SuperBuilder: de lop con có the ke thua va truy cap thuoc tinh cua lop cha)
 @MappedSuperclass // de ke thua va trien khai thuoc tinh cua lop cha xuong DB
 @EntityListeners(AuditingEntityListener.class) // kich hoat Jpa Auditor de tu dong điền cac thuoc tinh
 // tu cai dat khi thuoc tinh thay doi (version, ...), cau hinh trong config/JpaConfiguration
@@ -61,7 +62,7 @@ public class BaseEntity implements Serializable { // implements de xu li du lieu
 
     @Override
     public boolean equals(Object obj) {
-        return this.id.equals(BaseEntity.class.cast(obj).id);
+        return this.id.equals(((BaseEntity) obj).id);
     }
 
     @UtilityClass // lớp chức năng (khong tao instance) (inner class)

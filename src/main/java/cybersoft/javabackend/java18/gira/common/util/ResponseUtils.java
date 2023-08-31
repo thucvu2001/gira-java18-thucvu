@@ -64,7 +64,7 @@ public class ResponseUtils {
         );
     }
 
-    public static ResponseEntity<ResponseDTO> error (ValidationException exception, HttpStatus status){
+    public static ResponseEntity<ResponseDTO> error(ValidationException exception, HttpStatus status) {
         return new ResponseEntity<>(
                 ResponseDTO.builder()
                         .content(null)

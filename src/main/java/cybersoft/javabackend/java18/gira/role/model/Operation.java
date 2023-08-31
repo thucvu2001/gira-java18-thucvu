@@ -55,7 +55,7 @@ public class Operation extends BaseEntity {
         return super.equals(obj);
     }
 
-    public static enum Type {
+    public enum Type {
         SAVE_OR_UPDATE,
         FETCH,
         REMOVE
