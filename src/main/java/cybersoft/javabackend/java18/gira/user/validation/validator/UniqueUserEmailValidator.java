@@ -11,9 +11,8 @@ import java.util.Optional;
 public class UniqueUserEmailValidator implements ConstraintValidator<UniqueUserEmail, String> {
     // String is the type of the object to be validated
 
-    private String message;
-
     private final UserRepository userRepository;
+    private String message;
 
     public UniqueUserEmailValidator(UserRepository userRepository) {
         this.userRepository = userRepository;
