@@ -9,7 +9,7 @@ spring:
       name: admin
       password: 1234
   datasource:
-    url: jdbc:postgresql://postgresqldb:5432/postgres
+    url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: 1234
   jpa:
