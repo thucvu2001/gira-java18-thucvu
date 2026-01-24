@@ -5,6 +5,7 @@ import cybersoft.javabackend.java18.gira.common.util.ResponseUtils;
 import cybersoft.javabackend.java18.gira.user.dto.UserDTO;
 import cybersoft.javabackend.java18.gira.user.model.User;
 import cybersoft.javabackend.java18.gira.user.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,12 +15,9 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("api/v1/users")
+@RequiredArgsConstructor
 public class UserRestResource {
     private final UserService userService;
-
-    public UserRestResource(UserService userService) {
-        this.userService = userService;
-    }
 
     @GetMapping("/find-all-users")
     public ResponseEntity<ResponseDTO> findAllUser() {
@@ -39,11 +37,12 @@ public class UserRestResource {
 
     @PutMapping("/update-user/{user-id}")
     public ResponseEntity<ResponseDTO> updateUser(@RequestBody @Valid UserDTO user, @PathVariable("user-id") UUID userId) {
-        return ResponseUtils.get(userService.update(user, userId, User.class, UserDTO.class), HttpStatus.NO_CONTENT);
+        return ResponseUtils.get(userService.update(user, userId, User.class, UserDTO.class), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete-user/{user-id}")
     public ResponseEntity<ResponseDTO> deleteUser(@PathVariable("user-id") UUID userId) {
-        return ResponseUtils.get(userService.deleteById(userId), HttpStatus.OK);
+        userService.deleteById(userId);
+        return ResponseUtils.get(null, HttpStatus.OK);
     }
 }

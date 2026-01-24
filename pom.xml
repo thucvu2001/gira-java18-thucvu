@@ -11,8 +11,8 @@
     <groupId>cybersoft.javabackend.java18</groupId>
     <artifactId>gira</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>jira</name>
-    <description>jira</description>
+    <name>gira</name>
+    <description>Gira - Java 18 Backend Application</description>
     <properties>
         <java.version>17</java.version>
     </properties>

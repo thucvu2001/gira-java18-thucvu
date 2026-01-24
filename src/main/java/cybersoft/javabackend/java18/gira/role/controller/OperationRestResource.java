@@ -5,6 +5,7 @@ import cybersoft.javabackend.java18.gira.common.util.ResponseUtils;
 import cybersoft.javabackend.java18.gira.role.dto.OperationDTO;
 import cybersoft.javabackend.java18.gira.role.model.Operation;
 import cybersoft.javabackend.java18.gira.role.service.OperationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,12 +15,9 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("api/v1/operations")
+@RequiredArgsConstructor
 public class OperationRestResource {
     private final OperationService operationService;
-
-    public OperationRestResource(OperationService service) {
-        this.operationService = service;
-    }
 
     @GetMapping("/find-all")
     // @GiraOperation(name = "findAllOperation", type = Operation.Type.FETCH)
@@ -39,6 +37,7 @@ public class OperationRestResource {
 
     @DeleteMapping("/delete/{operation-id}")
     public ResponseEntity<ResponseDTO> delete(@PathVariable("operation-id") UUID operationId) {
-        return ResponseUtils.get(operationService.deleteById(operationId), HttpStatus.OK);
+        operationService.deleteById(operationId);
+        return ResponseUtils.get(null, HttpStatus.OK);
     }
 }

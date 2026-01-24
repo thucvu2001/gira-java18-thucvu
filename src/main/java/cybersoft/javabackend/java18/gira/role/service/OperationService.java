@@ -5,6 +5,7 @@ import cybersoft.javabackend.java18.gira.common.util.GiraMapper;
 import cybersoft.javabackend.java18.gira.role.dto.OperationDTO;
 import cybersoft.javabackend.java18.gira.role.model.Operation;
 import cybersoft.javabackend.java18.gira.role.repository.OperationRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,19 +20,13 @@ public interface OperationService extends GenericService<Operation, OperationDTO
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 class OperationServiceImpl implements OperationService {
-
     private final OperationRepository operationRepository;
-
     private final GiraMapper mapper;
 
-    public OperationServiceImpl(OperationRepository operationRepository, GiraMapper modelMapper) {
-        this.operationRepository = operationRepository;
-        this.mapper = modelMapper;
-    }
-
     @Override
-    public JpaRepository<Operation, UUID> getRoleRepository() {
+    public JpaRepository<Operation, UUID> getRepository() {
         return this.operationRepository;
     }
 

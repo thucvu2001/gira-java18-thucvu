@@ -5,6 +5,7 @@ import cybersoft.javabackend.java18.gira.common.util.ResponseUtils;
 import cybersoft.javabackend.java18.gira.role.dto.UserGroupDTO;
 import cybersoft.javabackend.java18.gira.role.model.UserGroup;
 import cybersoft.javabackend.java18.gira.role.service.UserGroupService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +16,9 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("api/v1/user-group")
+@RequiredArgsConstructor
 public class UserGroupRestResource {
     private final UserGroupService userGroupService;
-
-    public UserGroupRestResource(UserGroupService service) {
-        this.userGroupService = service;
-    }
 
     @GetMapping("/find-all-user-group")
     public ResponseEntity<ResponseDTO> findAllUsers() {

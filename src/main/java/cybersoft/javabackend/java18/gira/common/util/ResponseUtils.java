@@ -10,83 +10,44 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 import java.util.Collections;
 
-@UtilityClass // chi dung ten class va . toi thuoc tinh, khong tao instance
+@UtilityClass
 public class ResponseUtils {
+    
     public static ResponseEntity<ResponseDTO> get(Object result, HttpStatus status) {
-        return new ResponseEntity<>(
-                ResponseDTO.builder()
+        return ResponseEntity.status(status)
+                .body(ResponseDTO.builder()
                         .content(result)
                         .hasErrors(false)
                         .errors(Collections.emptyList())
                         .timestamp(DateTimeUtils.now())
                         .status(status.value())
-                        .build()
-                , status
-        );
+                        .build());
     }
 
     public static ResponseEntity<ResponseDTO> error(ConstraintViolationException exception, HttpStatus status) {
-        return new ResponseEntity<>(
-                ResponseDTO.builder()
-                        .content(null)
-                        .hasErrors(true)
-                        .errors(ExceptionUtils.getErrors(exception)) // ExceptionUtils
-                        .timestamp(DateTimeUtils.now())
-                        .status(status.value())
-                        .build()
-                , status
-        );
+        return buildErrorResponse(ExceptionUtils.getErrors(exception), status);
     }
 
     public static ResponseEntity<ResponseDTO> error(RuntimeException exception, HttpStatus status) {
-        return new ResponseEntity<>(
-                ResponseDTO.builder()
-                        .content(null)
-                        .hasErrors(true)
-                        .errors(ExceptionUtils.getErrors(exception))
-                        .timestamp(DateTimeUtils.now())
-                        .status(status.value())
-                        .build()
-                , status
-        );
+        return buildErrorResponse(ExceptionUtils.getErrors(exception), status);
     }
 
     public static ResponseEntity<ResponseDTO> error(MethodArgumentNotValidException exception, HttpStatus status) {
-        return new ResponseEntity<>(
-                ResponseDTO.builder()
-                        .content(null)
-                        .hasErrors(true)
-                        .errors(ExceptionUtils.getErrors(exception))
-                        .timestamp(DateTimeUtils.now())
-                        .status(status.value())
-                        .build()
-                , status
-        );
+        return buildErrorResponse(ExceptionUtils.getErrors(exception), status);
     }
 
     public static ResponseEntity<ResponseDTO> error(ValidationException exception, HttpStatus status) {
-        return new ResponseEntity<>(
-                ResponseDTO.builder()
-                        .content(null)
-                        .hasErrors(true)
-                        .errors(ExceptionUtils.getErrors(exception))
-                        .timestamp(DateTimeUtils.now())
-                        .status(status.value())
-                        .build()
-                , status
-        );
+        return buildErrorResponse(ExceptionUtils.getErrors(exception), status);
     }
 
-//    public static ResponseEntity<ResponseDTO> errors(DisabledException exception, HttpStatus status) {
-//        return new ResponseEntity<>(
-//                ResponseDTO.builder()
-//                        .content(null)
-//                        .hasErrors(true)
-//                        .errors(ExceptionUtils.getErrors(exception))
-//                        .timestamp(DateTimeUtils.now())
-//                        .status(status.value())
-//                        .build()
-//                , status
-//        );
-//    }
+    private static ResponseEntity<ResponseDTO> buildErrorResponse(java.util.List<String> errors, HttpStatus status) {
+        return ResponseEntity.status(status)
+                .body(ResponseDTO.builder()
+                        .content(null)
+                        .hasErrors(true)
+                        .errors(errors)
+                        .timestamp(DateTimeUtils.now())
+                        .status(status.value())
+                        .build());
+    }
 }

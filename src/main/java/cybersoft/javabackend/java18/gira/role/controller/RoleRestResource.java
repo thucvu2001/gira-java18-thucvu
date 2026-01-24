@@ -5,6 +5,7 @@ import cybersoft.javabackend.java18.gira.common.util.ResponseUtils;
 import cybersoft.javabackend.java18.gira.role.dto.RoleDTO;
 import cybersoft.javabackend.java18.gira.role.model.Role;
 import cybersoft.javabackend.java18.gira.role.service.RoleService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,14 +15,11 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
-@RestController // se tra ve json
+@RestController
 @RequestMapping("api/v1/roles")
+@RequiredArgsConstructor
 public class RoleRestResource {
     private final RoleService roleService;
-
-    public RoleRestResource(RoleService roleService) {
-        this.roleService = roleService;
-    }
 
     @GetMapping("/find-all")
     public ResponseEntity<ResponseDTO> findAll() {
@@ -42,7 +40,7 @@ public class RoleRestResource {
     }
 
     @PutMapping("/update/{role-id}")
-    public ResponseEntity<ResponseDTO> delete(@RequestBody @Valid RoleDTO roleDTO, @PathVariable("role-id") UUID roleId) {
+    public ResponseEntity<ResponseDTO> update(@RequestBody @Valid RoleDTO roleDTO, @PathVariable("role-id") UUID roleId) {
         return ResponseUtils.get(roleService.update(roleDTO, roleId, Role.class, RoleDTO.class), HttpStatus.OK);
     }
 

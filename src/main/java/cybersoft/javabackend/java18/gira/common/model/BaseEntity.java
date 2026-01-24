@@ -62,7 +62,19 @@ public class BaseEntity implements Serializable { // implements de xu li du lieu
 
     @Override
     public boolean equals(Object obj) {
-        return this.id.equals(((BaseEntity) obj).id);
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        BaseEntity that = (BaseEntity) obj;
+        return id != null && id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 
     @UtilityClass // lớp chức năng (khong tao instance) (inner class)

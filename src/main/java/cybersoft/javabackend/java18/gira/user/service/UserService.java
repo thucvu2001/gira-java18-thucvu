@@ -5,6 +5,7 @@ import cybersoft.javabackend.java18.gira.common.util.GiraMapper;
 import cybersoft.javabackend.java18.gira.user.dto.UserDTO;
 import cybersoft.javabackend.java18.gira.user.model.User;
 import cybersoft.javabackend.java18.gira.user.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,16 +21,11 @@ public interface UserService extends GenericService<User, UserDTO, UUID> {
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final GiraMapper giraMapper;
     private final PasswordEncoder passwordEncoder;
-
-    public UserServiceImpl(UserRepository userRepository, GiraMapper giraMapper, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.giraMapper = giraMapper;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @Override
     public UserDTO createUser(UserDTO userDTO) {
@@ -47,7 +43,7 @@ class UserServiceImpl implements UserService {
     }
 
     @Override
-    public JpaRepository<User, UUID> getRoleRepository() {
+    public JpaRepository<User, UUID> getRepository() {
         return this.userRepository;
     }
 

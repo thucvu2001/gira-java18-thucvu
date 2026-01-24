@@ -37,8 +37,4 @@ public class ExceptionUtils {
     public static List<String> getErrors(ValidationException exception) {
         return exception.getMessage().lines().toList();
     }
-
-//    public static List<String> getErrors(DisabledException exception) {
-//        return exception.getMessage().lines().toList();
-//    }
 }

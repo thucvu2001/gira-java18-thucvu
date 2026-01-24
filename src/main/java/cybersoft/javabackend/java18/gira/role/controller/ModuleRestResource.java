@@ -37,6 +37,7 @@ public class ModuleRestResource {
 
     @DeleteMapping("/delete/{module-id}")
     public ResponseEntity<ResponseDTO> deleteModule(@PathVariable("module-id") UUID moduleId) {
-        return ResponseUtils.get(moduleService.deleteById(moduleId), HttpStatus.OK);
+        moduleService.deleteById(moduleId);
+        return ResponseUtils.get(null, HttpStatus.OK);
     }
 }

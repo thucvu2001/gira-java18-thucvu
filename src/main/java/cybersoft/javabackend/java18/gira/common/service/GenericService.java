@@ -10,24 +10,28 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface GenericService<T extends BaseEntity, D, I> {
-    // T: entity
-    // D: DTO
-    // I: Id (kieu cua khoa chinh)
-    JpaRepository<T, I> getRoleRepository(); // Factory Method
+    /**
+     * Factory method to get the repository for this service
+     * @return JpaRepository instance
+     */
+    JpaRepository<T, I> getRepository();
 
+    /**
+     * Factory method to get the mapper for this service
+     * @return GiraMapper instance
+     */
     GiraMapper getGiraMapper();
 
     default List<T> findAll() {
-        return getRoleRepository().findAll();
+        return getRepository().findAll();
     }
 
     default List<T> findAllWithPageable(Pageable pageable) {
-        return getRoleRepository().findAll(pageable).stream().toList();
+        return getRepository().findAll(pageable).stream().toList();
     }
 
-    // ham findAll tra ra DTO
     default List<D> findAllDto(Class<D> clazz) {
-        return getRoleRepository()
+        return getRepository()
                 .findAll()
                 .stream()
                 .map(model -> getGiraMapper().map(model, clazz))
@@ -35,7 +39,7 @@ public interface GenericService<T extends BaseEntity, D, I> {
     }
 
     default List<D> findAllDtoWithPageable(Pageable pageable, Class<D> clazz) {
-        return getRoleRepository()
+        return getRepository()
                 .findAll(pageable)
                 .stream()
                 .map(model -> getGiraMapper().map(model, clazz))
@@ -43,33 +47,33 @@ public interface GenericService<T extends BaseEntity, D, I> {
     }
 
     default List<T> findByIds(List<I> ids) {
-        return getRoleRepository().findAllById(ids);
+        return getRepository().findAllById(ids);
     }
 
     default Optional<T> findById(I id) {
-        return getRoleRepository().findById(id);
+        return getRepository().findById(id);
     }
 
     default T save(T entity) {
-        return getRoleRepository().save(entity);
+        return getRepository().save(entity);
     }
 
     default D save(D dto, Class<T> modelClass, Class<D> dtoClass) {
-        T model = getGiraMapper().map(dto, modelClass); // map DTO to entity
-        T saveModel = getRoleRepository().save(model); // save entity
-        return getGiraMapper().map(saveModel, dtoClass); // map top DTO and return
+        T model = getGiraMapper().map(dto, modelClass);
+        T savedModel = getRepository().save(model);
+        return getGiraMapper().map(savedModel, dtoClass);
     }
 
     default D update(D dto, I id, Class<T> modelClass, Class<D> dtoClass) {
-        getRoleRepository().deleteById(id);
-        T entity = getGiraMapper().map(dto, modelClass);
-        entity.setId((UUID) id);
-        getRoleRepository().saveAndFlush(entity);
-        return getGiraMapper().map(entity, dtoClass);
+        T existingEntity = getRepository().findById(id)
+                .orElseThrow(() -> new cybersoft.javabackend.java18.gira.common.exception.EntityNotFoundException(
+                        modelClass.getSimpleName(), id));
+        getGiraMapper().map(dto, existingEntity);
+        T updatedEntity = getRepository().save(existingEntity);
+        return getGiraMapper().map(updatedEntity, dtoClass);
     }
 
-    default D deleteById(I id) {
-        getRoleRepository().deleteById(id);
-        return null;
+    default void deleteById(I id) {
+        getRepository().deleteById(id);
     }
 }
